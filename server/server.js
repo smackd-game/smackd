@@ -4,7 +4,7 @@ const app = express();
 const session = require("express-session");
 const massive = require("massive");
 const {SERVER_PORT, CONNECTION_STRING, SESSION_SECRET} = process.env;
-const ctrl = require("./controllers/controller");
+const ctrl = require("./controller");
 
 // app.use( express.static( `${__dirname}/../build` ) );
 
@@ -18,11 +18,13 @@ app.use(
   })
 );
 
+
 // ----- endpoints ------ //
 
 app.get('/api/questions', ctrl.getQuestions)
 
 // ---------------------- //
+
 
 massive(CONNECTION_STRING).then(db => {
   app.set("db", db);
