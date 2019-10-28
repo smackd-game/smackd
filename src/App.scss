@@ -1,0 +1,12 @@
+@import '../src/components/FinalResults/finalResults';
+@import '../src/components/Host/host';
+@import '../src/components/join/join';
+@import '../src/components/landing/landing';
+@import '../src/components/question/question';
+@import '../src/components/roundresults/roundResults';
+@import '../src/components/vote/vote';
+@import './variables';
+.App {
+    text-align: center;
+    background: $brand;
+}

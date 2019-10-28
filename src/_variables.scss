@@ -1,0 +1,9 @@
+$brand: rgb(236, 135, 135);
+$secondary: rgb(136, 245, 136);
+$accent: rgb(132, 132, 223);
+@mixin flexCenter($direction) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: $direction;
+}

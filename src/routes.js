@@ -15,9 +15,9 @@ export default (
         <Route path='host' component={Host} />
         <Route path='/join' component={Join} />
         <Route path='/question' component={Question} />
+        <Route path='/vote' component={Vote} />
         <Route path='/round-results' component={RoundResults} />
         <Route path='/final-results' component={FinalResults} />
-        <Route path='/vote' component={Vote} />
     </Switch>
 )
 
