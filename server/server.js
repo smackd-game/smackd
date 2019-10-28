@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const app = express();
 const session = require("express-session");
@@ -21,11 +22,11 @@ app.use(
 
 app.get('/api/questions', ctrl.getQuestions)
 
-// -------------------- //
+// ---------------------- //
 
 massive(CONNECTION_STRING).then(db => {
   app.set("db", db);
-  console.log("connected to the database");
+  console.log("connected to the database and");
   app.listen(SERVER_PORT, () => {
     console.log(`listening on port ${SERVER_PORT}`);
   });

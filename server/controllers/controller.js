@@ -1,7 +1,7 @@
 module.exports = {
-    getQuestions: (req, res) => {
+    getQuestions: async (req, res) => {
         const db = req.app.get('db')
-        db.get_questions()
-
+        const questionsArr = await db.get_questions()
+        res.status(200).send(questionsArr)
     }
 }
