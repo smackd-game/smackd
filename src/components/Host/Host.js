@@ -4,14 +4,21 @@ class Host extends Component {
     constructor() {
         super()
         this.state = {
-            placeholder: ''
+            name: ''
         }
+    }
+
+    handleChange(value) {
+        this.setState({
+            name: value
+        })
     }
 
     render() {
         return (
             <div className="host-container">
-                Host
+                <header className="title">Get Started</header>
+                <input onChange={e => this.handleChange(e.target.value)} type="text" className="name"/>
             </div>
         )
     }
