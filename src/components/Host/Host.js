@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import io from "socket.io-client";
 
 class Host extends Component {
   constructor() {
@@ -8,23 +9,18 @@ class Host extends Component {
       code: null,
       submittedName: false
     };
+    // io.on("join room", data => this.joinRoom(data));
   }
+
+//   joinRoom(data) {
+//     io.emit({
+//       name: this.state.name,
+//       code: this.state.code
+//     });
+//   }
 
   componentDidMount() {
-    this.codeGenerator();
-  }
-
-  handleChange(value) {
-    this.setState({
-      name: value
-    });
-  }
-
-  codeGenerator() {
-    const code = Math.ceil(Math.random() * 10000);
-    this.setState({
-      code: code
-    });
+    this.props.codeGeneratorFn();
   }
 
   submit() {
@@ -40,7 +36,7 @@ class Host extends Component {
           <>
             <header className="title">Get Started</header>
             <input
-              onChange={e => this.handleChange(e.target.value)}
+              onChange={e => this.props.handleChangeFn(e.target.value)}
               type="text"
               className="name"
             />
@@ -50,7 +46,7 @@ class Host extends Component {
           </>
         ) : (
           <>
-            <h3 className="code">{this.state.code}</h3>
+            <h3 className="code">{this.props.code}</h3>
           </>
         )}
       </div>
