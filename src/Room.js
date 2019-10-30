@@ -114,5 +114,4 @@ class Room extends Component {
     );
   }
 }
-
 export default Room;
