@@ -28,7 +28,7 @@ module.exports = {
       code
     };
 
-    res.status(200).send(session);
+    res.status(200).send(session.user);
   },
 
   getUser: (req, res) => {
