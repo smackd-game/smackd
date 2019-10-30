@@ -12,13 +12,8 @@ class Room extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      landing: false,
-      finalResults: false,
       host: false,
       join: false,
-      question: false,
-      roundResults: false,
-      vote: false,
       code: null,
       hostName: ""
     };
@@ -27,17 +22,17 @@ class Room extends Component {
   }
 
   componentDidMount = () => {
-      this.socket.emit('join room', {
-          room: this.state.code
-      })
-  }
+    this.socket.emit("join room", {
+      room: this.state.code
+    });
+  };
 
   joinRoom(data) {
     const roomsArr = this.state.rooms.slice();
     roomsArr.push(data);
     this.setState({
-        rooms: roomsArr,
-    })
+      rooms: roomsArr
+    });
   }
 
   handleChange = key => {
@@ -80,21 +75,11 @@ class Room extends Component {
       );
     } else if (this.state.join) {
       component = <Join />;
-    } else if (this.state.question) {
-      component = <Question />;
-    } else if (this.state.vote) {
-      component = <Vote />;
-    } else if (this.state.roundResults) {
-      component = <RoundResults />;
-    } else if (this.state.finalResults) {
-      component = <FinalResults />;
-    } else {
-      component = <Landing />;
     }
 
     return (
       <div className="room">
-        <button onClick={() => this.handleClick("landing")} className="landing">
+        {/* <button onClick={() => this.handleClick("landing")} className="landing">
           landing
         </button>
         <button onClick={() => this.handleClick("host")} className="host">
@@ -123,7 +108,7 @@ class Room extends Component {
           className="final-results"
         >
           final results
-        </button>
+        </button> */}
         {component}
       </div>
     );

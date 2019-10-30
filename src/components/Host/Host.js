@@ -6,7 +6,6 @@ class Host extends Component {
     super();
     this.state = {
       name: "",
-      code: null,
       submittedName: false
     };
     // io.on("join room", data => this.joinRoom(data));
@@ -47,6 +46,8 @@ class Host extends Component {
         ) : (
           <>
             <h3 className="code">{this.props.code}</h3>
+            map of connected players
+            <button onClick={() => this.props.history.push(`/game/${this.props.code}`)} className="start">Start</button>
           </>
         )}
       </div>
