@@ -39,7 +39,7 @@ class Join extends Component {
                   onChange={e => this.handleChange(e.target.value)}
                   type="text"
                   className="name"
-                  placeholder= "Username"
+                  placeholder= "Create Username"
                 />
                 <button onClick={() => this.submit()} className="submit">
                   submit

@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import axios from "axios";
 
 class Host extends Component {
   constructor() {
@@ -10,9 +11,9 @@ class Host extends Component {
     };
   }
 
-  componentDidMount() {
-    this.codeGenerator();
-  }
+  // componentDidMount() {
+  //   this.codeGenerator();
+  // }
 
   handleChange(value) {
     this.setState({
@@ -20,18 +21,23 @@ class Host extends Component {
     });
   }
 
-  codeGenerator() {
-    const code = Math.ceil(Math.random() * 10000);
-    this.setState({
-      code: code
-    });
-  }
+  // codeGenerator() {
+  //   const code = Math.ceil(Math.random() * 10000);
+  //   this.setState({
+  //     code: code
+  //   });
+  // }
 
   submit() {
     this.setState({
       submittedName: true
     });
   }
+
+  // hostGame = () => {
+  //   axios.post(`/user`, {}`)
+  //   .then()
+  // }
 
   render() {
     return (
@@ -43,6 +49,7 @@ class Host extends Component {
               onChange={e => this.handleChange(e.target.value)}
               type="text"
               className="name"
+              placeholder="Create Username"
             />
             <button onClick={() => this.submit()} className="submit">
               submit
@@ -50,7 +57,9 @@ class Host extends Component {
           </>
         ) : (
           <>
-            <h3 className="code">{this.state.code}</h3>
+            {/* we need to add the code to session */}
+            <h3 className="code">{this.props.code}</h3>
+            <button>Host Game</button>
           </>
         )}
       </div>
