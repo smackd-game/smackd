@@ -1,2 +1,2 @@
 select * from games
-where code = $1;
+where code = ($1);
