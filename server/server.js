@@ -25,6 +25,10 @@ app.get("/api/questions", ctrl.getQuestions);
 
 app.get('/api/games', ctrl.findGame)
 
+app.post('/user', ctrl.addUser)
+
+app.get('/user', ctrl.getUser)
+
 // ---------------------- //
 
 massive(CONNECTION_STRING).then(db => {
