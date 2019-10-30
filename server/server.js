@@ -23,6 +23,8 @@ app.use(
 
 app.get("/api/questions", ctrl.getQuestions);
 
+app.get('/api/games', ctrl.findGame)
+
 // ---------------------- //
 
 massive(CONNECTION_STRING).then(db => {
