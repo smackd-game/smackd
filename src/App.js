@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import Room from './Room'
+import GameParent from './GameParent'
 
 // import routes from './routes'
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
      
-    <Room/>
+    <GameParent/>
 
      {/* {routes} */}
     </div>

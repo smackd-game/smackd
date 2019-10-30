@@ -18,18 +18,32 @@ class Room extends Component {
       join: false,
       question: false,
       roundResults: false,
-      vote: false
+      vote: false,
+      code: null,
+      hostName: ""
     };
     this.socket = io.connect();
+    this.socket.on("join room", data => this.joinRoom(data));
+  }
+
+  componentDidMount = () => {
+      this.socket.emit('join room', {
+          room: this.state.code
+      })
+  }
+
+  joinRoom(data) {
+    const roomsArr = this.state.rooms.slice();
+    roomsArr.push(data);
+    this.setState({
+        rooms: roomsArr,
+    })
   }
 
   handleChange = key => {
-    this.setState(
-      {
-        [key]: !this.state[key]
-      },
-      () => {}
-    );
+    this.setState({
+      [key]: !this.state[key]
+    });
   };
 
   handleClick(key) {
@@ -38,10 +52,32 @@ class Room extends Component {
     });
   }
 
+  codeGenerator = () => {
+    const code = `${Math.floor(Math.random() * 10)}${Math.floor(
+      Math.random() * 10
+    )}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`;
+    this.setState({
+      code: code
+    });
+  };
+
+  handleChange = value => {
+    this.setState({
+      hostName: value
+    });
+  };
+
   render() {
     let component;
     if (this.state.host) {
-      component = <Host />;
+      component = (
+        <Host
+          handleChangeFn={this.handleChange}
+          codeGeneratorFn={this.codeGenerator}
+          hostName={this.state.hostName}
+          code={this.state.code}
+        />
+      );
     } else if (this.state.join) {
       component = <Join />;
     } else if (this.state.question) {
@@ -58,38 +94,39 @@ class Room extends Component {
 
     return (
       <div className="room">
-        <button
-          onClick={() => this.handleClick("landing")}
-          className="landing"
-        >landing</button>
-        <button
-          onClick={() => this.handleClick("host")}
-          className="host"
-        >host</button>
-        <button
-          onClick={() => this.handleClick("join")}
-          className="join"
-        >join</button>
+        <button onClick={() => this.handleClick("landing")} className="landing">
+          landing
+        </button>
+        <button onClick={() => this.handleClick("host")} className="host">
+          host
+        </button>
+        <button onClick={() => this.handleClick("join")} className="join">
+          join
+        </button>
         <button
           onClick={() => this.handleClick("question")}
           className="question"
-        >question</button>
-        <button
-          onClick={() => this.handleClick("vote")}
-          className="vote"
-        >vote</button>
+        >
+          question
+        </button>
+        <button onClick={() => this.handleClick("vote")} className="vote">
+          vote
+        </button>
         <button
           onClick={() => this.handleClick("roundResults")}
           className="round-results"
-        >round results</button>
+        >
+          round results
+        </button>
         <button
           onClick={() => this.handleClick("finalResults")}
           className="final-results"
-        >final results</button>
+        >
+          final results
+        </button>
         {component}
       </div>
     );
   }
 }
-
 export default Room;
