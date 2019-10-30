@@ -23,6 +23,8 @@ app.use(
 
 app.get("/api/questions", ctrl.getQuestions);
 
+app.get('/api/games', ctrl.findGame)
+
 // ---------------------- //
 
 massive(CONNECTION_STRING).then(db => {
@@ -43,18 +45,17 @@ io.on("connection", socket => {
 
   socket.on("disconnect", () => {
     console.log("a user has disconnected");
-    
-    socket.on("join room", data => {
-      socket.join(data.room);
-    });
-    
-    socket.on("emit to room socket", data => {
-      socket.emit("room response", data);
-    });
-    
-    socket.on("blast to room socket", data => {
-      io.to(data.room).emit("room response", data);
-    });
+  });
+  socket.on("join room", data => {
+    console.log(`user joined room ${data.room}`);
+    socket.join(data.room);
+  });
+
+  socket.on("emit to room socket", data => {
+    socket.emit("room response", data);
+  });
+
+  socket.on("blast to room socket", data => {
+    io.to(data.room).emit("room response", data);
   });
 });
-
