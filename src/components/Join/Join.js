@@ -1,67 +1,48 @@
-import React, {Component} from 'react'
+import React, {Component} from "react";
 
 class Join extends Component {
-    constructor() {
-        super()
-        this.state = {
-            name: '',
-            submittedName: false,
-            code: null
-        }
-    }
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      submittedName: false,
+      code: null
+    };
+  }
 
-    handleChange(value) {
-        this.setState({
-            name: value
-        })
-    }
+  handleChange(value) {
+    this.setState({
+      name: value
+    });
+  }
 
-    handleCode(value) {
-        this.setState({
-            code: value
-        })
-        console.log(this.state)
-    }
+  handleCode(value) {
+    this.setState({
+      code: value
+    });
+  }
 
-    submit=()=>{
-        this.setState({
-            submittedName: true
-        })
-    } 
+  submit = () => {
+    this.setState({
+      submittedName: true
+    });
+  };
 
-    render() {
-        return (
-          <div className="join-container">
-            {!this.state.submittedName ? (
-              <>
-                <header className="title">Get Started</header>
-                <input
-                  onChange={e => this.handleChange(e.target.value)}
-                  type="text"
-                  className="name"
-                  placeholder= "Create Username"
-                />
-                <button onClick={() => this.submit()} className="submit">
-                  submit
-                </button>
-              </>
-            ) : (
-              <>
-              <input 
-              onChange={e => this.handleCode(e.target.value)}
-              placeholder= "Enter Game Code" 
-              type= "text"
-              className = "code"
-              />
-              <button>
-                  Join Game
-              </button>
-              </>
-            )}
-          </div>
-        );
-      }
-    }
-    
-    export default Join;
-    
+  render() {
+    return (
+      <div className="host-container">
+        <h3 className="welcome">Welcome {this.props.name}</h3>
+        <header className="title">
+          Share this code with your friends: {this.props.code}
+        </header>
+        <p className="player-list">
+          This is where we will map through the players
+        </p>
+
+        <h1 className="waiting">Waiting on host</h1>
+      </div>
+    );
+  }
+}
+
+export default Join;

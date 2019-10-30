@@ -1,94 +1,85 @@
 import Host from "./components/Host/Host";
 import Join from "./components/Join/Join";
-import Vote from "./components/Vote/Vote";
-import Question from "./components/Question/Question";
 import React, {Component} from "react";
 import io from "socket.io-client";
-import Landing from "./components/Landing/Landing";
-import RoundResults from "./components/RoundResults/RoundResults";
-import FinalResults from "./components/FinalResults/FinalResults";
+import axios from "axios";
 
 class Room extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      landing: false,
-      finalResults: false,
-      host: false,
-      join: false,
-      question: false,
-      roundResults: false,
-      vote: false
+      host: true,
+      code: this.props.match.params.code,
+      name: "",
+      start: false
     };
     this.socket = io.connect();
+    this.socket.on("join room", data => this.joinRoom(data));
   }
 
-  handleChange = key => {
+  componentDidMount = async () => {
+    const user = await axios.get("/user");
+    // this.setState({
+    //   name: user.data.user.name,
+    //   code: user.data.user.code,
+    //   host: user.data.user.host
+    // });
+
+    if (this.state.start) {
+      this.props.history.push(`/game/${this.state.code}`);
+    }
+
+    this.socket.emit("join room", {
+      room: this.state.code
+    });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.start !== this.state.start) {
+      this.props.history.push(`/game/${this.state.code}`);
+    }
+  }
+
+  // joinRoom(data) {
+  //   const roomsArr = this.state.rooms.slice();
+  //   roomsArr.push(data);
+  //   this.setState({
+  //     rooms: roomsArr
+  //   });
+  // }
+
+  handleStart = () => {
     this.setState(
       {
-        [key]: !this.state[key]
+        start: true
       },
-      () => {}
+      () => {
+        console.log(this.state);
+      }
     );
   };
 
-  handleClick(key) {
+  handleChange = value => {
     this.setState({
-      [key]: !this.state[key]
+      hostName: value
     });
-  }
+  };
 
   render() {
     let component;
     if (this.state.host) {
-      component = <Host />;
-    } else if (this.state.join) {
-      component = <Join />;
-    } else if (this.state.question) {
-      component = <Question />;
-    } else if (this.state.vote) {
-      component = <Vote />;
-    } else if (this.state.roundResults) {
-      component = <RoundResults />;
-    } else if (this.state.finalResults) {
-      component = <FinalResults />;
+      component = (
+        <Host
+          handleStartFn={this.handleStart}
+          name={this.state.name}
+          code={this.state.code}
+        />
+      );
     } else {
-      component = <Landing />;
+      component = <Join name={this.state.name} code={this.state.code} />;
     }
 
-    return (
-      <div className="room">
-        <button
-          onClick={() => this.handleClick("landing")}
-          className="landing"
-        >landing</button>
-        <button
-          onClick={() => this.handleClick("host")}
-          className="host"
-        >host</button>
-        <button
-          onClick={() => this.handleClick("join")}
-          className="join"
-        >join</button>
-        <button
-          onClick={() => this.handleClick("question")}
-          className="question"
-        >question</button>
-        <button
-          onClick={() => this.handleClick("vote")}
-          className="vote"
-        >vote</button>
-        <button
-          onClick={() => this.handleClick("roundResults")}
-          className="round-results"
-        >round results</button>
-        <button
-          onClick={() => this.handleClick("finalResults")}
-          className="final-results"
-        >final results</button>
-        {component}
-      </div>
-    );
+    return <div className="room">{component}</div>;
   }
 }
 

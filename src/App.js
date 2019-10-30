@@ -1,14 +1,9 @@
-import React from 'react';
-import './App.scss';
-import routes from './routes'
+import React from "react";
+import "./App.scss";
+import routes from "./routes";
 
 function App() {
-  return (
-    <div className="App">
-    {/* <Room/> */}
-     {routes}
-    </div>
-  );
+  return <div className="App">{routes}</div>;
 }
 
 export default App;
