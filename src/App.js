@@ -1,18 +1,9 @@
-import React from 'react';
-import './App.scss';
-import GameParent from './GameParent'
-
-// import routes from './routes'
+import React from "react";
+import "./App.scss";
+import routes from "./routes";
 
 function App() {
-  return (
-    <div className="App">
-     
-    <GameParent/>
-
-     {/* {routes} */}
-    </div>
-  );
+  return <div className="App">{routes}</div>;
 }
 
 export default App;
