@@ -16,7 +16,7 @@ module.exports = {
     if (game[0] && game[0].joinable) {
       return res.status(200).send(game[0]);
     }
-    return res.status(200).send('game not found');
+    return res.status(200).send('game not found ');
   },
 
   createGame: async (req, res) => {
@@ -28,11 +28,11 @@ module.exports = {
     return res.status(200).send(game[0]);
   },
 
-  updateGame: async (req, res) => {
+  updateGame: (req, res) => {
     const db = req.app.get("db");
     const {code} = req.params;
 
-    const updatedGame = db.update_game(code);
+    db.update_game(code);
 
     return res.status(200).send('game has been updated');
   },

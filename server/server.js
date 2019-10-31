@@ -68,6 +68,11 @@ io.on("connection", socket => {
     });
   });
 
+  socket.on('start', data => {
+    console.log(data.room)
+    socket.to(data.room).emit('start', 'get ready to start')
+  })
+
   socket.on('leave game', data => {
     socket.leave(data.room)
     console.log(`${data.name} has left the room`)
