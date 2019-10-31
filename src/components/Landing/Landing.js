@@ -49,7 +49,8 @@ class Landing extends Component {
 
   joinGame = async () => {
     const game = await axios.get(`/api/games/${this.state.code}`);
-    if (game) {
+    console.log(game)
+    if (game.data !== 'game not found') {
       axios
         .post("/user", {
           name: this.state.name,
@@ -83,7 +84,7 @@ class Landing extends Component {
     if (this.state.showHost === false && this.state.showJoin === false) {
       return (
         <div className="landing-container">
-          <h1>Smakd</h1>
+          <h1>Smackd</h1>
           <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit.
             Laudantium, laboriosam aliquid maxime corrupti fuga eaque deserunt
@@ -129,7 +130,7 @@ class Landing extends Component {
             name="code"
             onChange={e => this.handleChange(e, "code")}
             placeholder="Enter Code"
-            type="text"
+            type="number"
           />
           <button onClick={() => this.backFN()}>Go Back</button>
 

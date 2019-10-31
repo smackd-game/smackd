@@ -1,4 +1,3 @@
-
 import Vote from "./components/Vote/Vote";
 import Question from "./components/Question/Question";
 import RoundResults from "./components/RoundResults/RoundResults";
@@ -27,6 +26,13 @@ class GameParent extends Component {
     };
     this.socket = io.connect();
   }
+
+  // componentDidMount = async () => {
+  //   const user = await axios.get('/user')
+  //   this.setState({
+  //     players:
+  //   })
+  // }
 
   handleAnswerChange = value => {
     this.setState({
