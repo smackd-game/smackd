@@ -21,13 +21,26 @@ app.use(
 
 // ----- endpoints ------ //
 
+
+//questions
 app.get("/api/questions", ctrl.getQuestions);
 
-app.get('/api/games', ctrl.findGame)
 
+//games
+app.get('/api/games/:code', ctrl.findGame)
+
+app.post('/api/games/:code', ctrl.createGame)
+
+app.put('/api/games/:code', ctrl.updateGame)
+
+app.delete('/api/games/:code', ctrl.deleteGame)
+
+
+// session
 app.post('/user', ctrl.addUser)
 
 app.get('/user', ctrl.getUser)
+
 
 // ---------------------- //
 
