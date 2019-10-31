@@ -126,13 +126,13 @@ class GameParent extends Component {
     if (this.state.showFinalResults) {
       component = <FinalResults />;
     } else if (this.state.showQuestion) {
-      component = (
-        <Question
-          question={this.state.gameQuestion}
-          handleChangeFn={this.handleAnswerChange}
-          answer={this.state.answer}
-        />
-      );
+      component = <Question 
+                    question={this.state.gameQuestion}
+                    handleChangeFn={this.handleAnswerChange}
+                    answer={this.state.answer}
+                    players={this.state.players}
+
+      />;
     } else if (this.state.showVote) {
       component = <Vote question={this.state.gameQuestion} />;
     } else if (this.state.showRoundResults) {

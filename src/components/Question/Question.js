@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './_question.scss'
 
 class Question extends Component {
     constructor() {
@@ -16,27 +17,30 @@ class Question extends Component {
     }
 
     render() {
+        const players = this.props.players.map(el => <p>{el}</p>);
         return (
             <div className="question-container">
                
                 {!this.state.answeredQuestion ? (
                 <>
-                    <header className="question"><p>{this.props.question}</p></header>
+                    <header className="question"><h3>{this.props.question}</h3></header>
                     <textarea
                     onChange={e => this.props.handleChangeFn(e.target.value)}
                     type="text"
                     className="answer"
                     />
-                    <button onClick={() => this.submit()} className="submit">
+                    <button className='landing-button' onClick={() => this.submit()}>
                     submit
                     </button>
                 </>
                 ) : (
                 <>
-                    <header className="question"><p>{this.props.question}</p></header>
-                    <hr/>
-                    <p>Still waiting on ... players "we can map the players who haven't answerered yet here</p>
-                    <p>Give these players a dirty look until they answer</p>
+                    <header className="question"><h3>{this.props.question}</h3></header>
+                    
+                    
+                    <p>Still waiting on:</p>
+                    {players}
+                    <p>Give them a dirty look until they answer the question</p>
                     <p>Also we can put like a spinning wheel animation or something here</p>
                 </>
                 )}

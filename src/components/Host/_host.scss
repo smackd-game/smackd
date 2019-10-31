@@ -1,4 +1,17 @@
 @import '../../variables';
 .host-container {
+    display: flex;
+    flex-direction: column;
     background: $brand;
+    height: 100vh;
+    width: 100%;
+    h3{
+        margin: 1vh auto;
+    }
+}
+.whosreadytoplay{
+    border: 2px black solid;
+    border-radius: 10px;
+    width: 80vw;
+    margin: 1vh auto;
 }

@@ -2,3 +2,44 @@
 .landing-container {
     background: $accent;
 }
+
+.landing-container{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    h1{
+        margin: 0 auto;
+    }
+    h3{
+        margin: 0 auto
+    }
+    height: 100vh;
+    width: 100%;
+    p{
+        width: 70vw;
+        margin: 0 auto;
+    }
+    img{
+        margin: 0 auto;
+    }
+    input{
+        width: 50vw;
+        margin: 1vh auto;
+    }
+    
+}
+
+.landing-logo{
+    width: 40vw;
+    height: auto;
+}
+
+.landing-button{
+    background:  $buttonColor;
+    padding: 1vh;
+    margin: 1vh auto;
+    width: 20vw;
+    border: 2px black solid;
+    border-radius: 10px;
+    box-shadow: 3px 3px 2px 1px rgba(0, 0, 255, .2);
+}
