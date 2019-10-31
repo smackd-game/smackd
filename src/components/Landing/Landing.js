@@ -81,7 +81,6 @@ class Landing extends Component {
   };
 
   render() {
-    console.log(this.state);
     if (this.state.showHost === false && this.state.showJoin === false) {
       return (
         <div className="landing-container">
