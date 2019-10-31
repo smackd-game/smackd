@@ -11,15 +11,17 @@ class GameParent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      finalResults: false,
+      showFinalResults: false,
       round: 1,
-      question: false,
-      roundResults: false,
-      vote: false,
+      showQuestion: true,
+      showRoundResults: false,
+      showVote: false,
       gameQuestion: "When will the world end?",
       answer: '',
       thoseWhoHaventAnswered: [],
       thoseWhoHaventVoted: [],
+      answers: [],
+      players: []
      
 
     };
@@ -32,6 +34,37 @@ class GameParent extends Component {
     });
   };
 
+  moveToVoting = () => {
+      this.setState({
+          showVote: true, showQuestion: false
+        })
+  }
+
+  leaveGame = () => {
+    this.props.history.push(`/`);
+
+  }
+
+  moveToResults = () => {
+      //We will need an if statement here that checks if it is the last round or not
+      //if it is not the last round then we will fire
+      this.setState({
+          showQuestion: false,
+          showRoundResults: true
+      })
+      //if it is the last round, then we will fire this
+      this.setState({
+        showQuestion: false,
+        showFinalResults: true
+    })
+  }
+
+  startTheRoundOverAgain = () => {
+      this.setState({
+          showRoundResults: false,
+          showQuestion: true
+      })
+  }
 
   handleClick(key) {
     this.setState({
@@ -41,20 +74,20 @@ class GameParent extends Component {
 
   render() {
       let component;
-    if (this.state.finalResults) {
+    if (this.state.showFinalResults) {
       component = <FinalResults />;
-    } else if (this.state.question) {
+    } else if (this.state.showQuestion) {
       component = <Question 
                     question={this.state.gameQuestion}
                     handleChangeFn={this.handleAnswerChange}
                     answer={this.state.answer}
       />;
-    } else if (this.state.vote) {
+    } else if (this.state.showVote) {
       component = <Vote 
                     question={this.state.gameQuestion}
 
       />;
-    } else if (this.state.roundResults) {
+    } else if (this.state.showRoundResults) {
       component = <RoundResults 
                     round={this.state.round}
       />;
@@ -62,22 +95,9 @@ class GameParent extends Component {
     return (
         
       <div className="room">
-        <button
-          onClick={() => this.handleClick("question")}
-          className="question"
-        >question</button>
-        <button
-          onClick={() => this.handleClick("vote")}
-          className="vote"
-        >vote</button>
-        <button
-          onClick={() => this.handleClick("roundResults")}
-          className="round-results"
-        >round results</button>
-        <button
-          onClick={() => this.handleClick("finalResults")}
-          className="final-results"
-        >final results</button>
+        Game Parent
+       
+        
         {component}
       </div>
     );
