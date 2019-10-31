@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import './_join.scss'
 
 class Join extends Component {
   constructor() {
@@ -32,13 +33,14 @@ class Join extends Component {
     const players = this.props.players.map(el => <p>{el}</p>);
     return (
       <div className="host-container">
-        <h3 className="welcome">Welcome {this.props.name}</h3>
-        <header className="title">
-          Share this code with your friends: {this.props.code}
-        </header>
-        {players}
-        <h1 className="waiting">Waiting on host</h1>
-        <button onClick={() => this.props.leaveGameFn()} className="leave">Leave Game</button>
+        <h3 className="welcome">Welcome, {this.props.name}!</h3>
+        
+        <div className="whosreadytoplay">
+          <h3>Here's who's ready to play:</h3>
+          <p>{players}</p>
+        </div>
+        <p className='waitingonhost' >Waiting for other players to join and for the Host to start the game</p>
+        <button className='landing-button' onClick={() => this.props.leaveGameFn()} >Leave Game</button>
       </div>
     );
   }

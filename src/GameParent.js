@@ -87,6 +87,8 @@ class GameParent extends Component {
                     question={this.state.gameQuestion}
                     handleChangeFn={this.handleAnswerChange}
                     answer={this.state.answer}
+                    players={this.state.players}
+
       />;
     } else if (this.state.showVote) {
       component = <Vote 

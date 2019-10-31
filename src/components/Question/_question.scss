@@ -1,4 +1,12 @@
 @import '../../variables';
 .question-container {
     background: $secondary;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    textarea{
+        width: 80vw;
+        margin: 1vh auto;
+        height: 20vh;
+    }
 }
