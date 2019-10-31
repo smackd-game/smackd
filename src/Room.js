@@ -15,6 +15,15 @@ class Room extends Component {
       players: []
     };
     this.socket = io.connect();
+    this.socket.on("start", data => {
+      console.log(data);
+      if (data === "get ready to start") {
+        this.setState({
+          start: true
+        });
+      }
+    });
+
     // this.socket.on("join room", data => this.joinRoom(data));
     this.socket.on("game data", data => {
       if (data.room === this.props.match.params.code && this.state.host) {
@@ -60,10 +69,6 @@ class Room extends Component {
       host: user.data.user.host
     });
 
-    if (this.state.start) {
-      this.props.history.push(`/game/${this.state.code}`);
-    }
-
     this.socket.emit("join room", {
       room: this.state.code,
       name: this.state.name
@@ -71,7 +76,10 @@ class Room extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.start !== this.state.start) {
+    if (this.state.start) {
+      this.socket.emit("start", {
+        room: this.state.code
+      });
       this.props.history.push(`/game/${this.state.code}`);
     }
   }
