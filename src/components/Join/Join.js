@@ -29,17 +29,16 @@ class Join extends Component {
   };
 
   render() {
+    const players = this.props.players.map(el => <p>{el}</p>);
     return (
       <div className="host-container">
         <h3 className="welcome">Welcome {this.props.name}</h3>
         <header className="title">
           Share this code with your friends: {this.props.code}
         </header>
-        <p className="player-list">
-          This is where we will map through the players
-        </p>
-
+        {players}
         <h1 className="waiting">Waiting on host</h1>
+        <button onClick={() => this.props.leaveGameFn()} className="leave">Leave Game</button>
       </div>
     );
   }

@@ -1,24 +1,19 @@
 import React, {Component} from "react";
-import io from "socket.io-client";
 
 class Host extends Component {
-
-  // hostGame = () => {
-  //   axios.post(`/user`, {}`)
-  //   .then()
-  // }
-
   render() {
+    const players = this.props.players.map(el => <p>{el}</p>);
     return (
       <div className="host-container">
         <h3 className="welcome">Welcome {this.props.name}</h3>
         <header className="title">
           Share this code with your friends: {this.props.code}
         </header>
-        <p className="player-list">This is where we will map through the players</p>
+        {players}
         <button onClick={() => this.props.handleStartFn()} className="start">
           Start
         </button>
+        <button onClick={() => this.props.leaveGameFn()} className="leave">Leave Game</button>
       </div>
     );
   }
