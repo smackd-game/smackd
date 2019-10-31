@@ -1,6 +1,6 @@
 @import '../../variables';
 .landing-container {
-    background: $accent;
+    background: $tateBuzzLightYearCream;
 }
 
 .landing-container{
@@ -9,6 +9,7 @@
     flex-direction: column;
     h1{
         margin: 0 auto;
+        color: $tateBuzzLightYearPurple
     }
     h3{
         margin: 0 auto
@@ -35,7 +36,7 @@
 }
 
 .landing-button{
-    background:  $buttonColor;
+    background:  $tateBuzzLightYearGreen;
     padding: 1vh;
     margin: 1vh auto;
     width: 20vw;

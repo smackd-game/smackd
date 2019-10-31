@@ -2,6 +2,11 @@ $brand: rgb(236, 135, 135);
 $secondary: rgb(136, 245, 136);
 $accent: rgb(132, 132, 223);
 $buttonColor: pink;
+$tateBuzzLightYearPurple: #561D7C;
+$tateBuzzLightYearGreen: #77BD7B;
+$tateBuzzLightYearCream: #F0E0DE;
+$tateBuzzLightYearRed:#630F1F;
+$tateBuzzLightYearRed:#8585AF;
 @mixin flexCenter($direction) {
     display: flex;
     justify-content: center;
