@@ -11,26 +11,62 @@ class Room extends Component {
       host: true,
       code: this.props.match.params.code,
       name: "",
-      start: false
+      start: false,
+      players: []
     };
     this.socket = io.connect();
-    this.socket.on("join room", data => this.joinRoom(data));
+    // this.socket.on("join room", data => this.joinRoom(data));
+    this.socket.on("game data", data => {
+      if (data.room === this.props.match.params.code && this.state.host) {
+        this.setState({
+          players: [...this.state.players, data.name]
+        });
+        this.socket.emit("update list", {
+          players: this.state.players,
+          room: this.state.code
+        });
+      }
+    });
+    this.socket.on("update list", data => {
+      if (data.room === this.state.code && !this.state.host) {
+        this.setState({
+          players: data.players
+        });
+      }
+    });
+    this.socket.on("leave", data => {
+      if (data.room === this.state.code) {
+        let updatedArr = [...this.state.players];
+        const index = updatedArr.findIndex(el => {
+          return el === data.name;
+        });
+
+        if (index !== -1) {
+          updatedArr.splice(index, 1);
+          this.setState({
+            players: updatedArr
+          });
+        }
+      }
+    });
   }
 
   componentDidMount = async () => {
+    window.addEventListener("beforeunload", this.leaveGame);
     const user = await axios.get("/user");
-    // this.setState({
-    //   name: user.data.user.name,
-    //   code: user.data.user.code,
-    //   host: user.data.user.host
-    // });
+    this.setState({
+      name: user.data.user.name,
+      code: user.data.user.code,
+      host: user.data.user.host
+    });
 
     if (this.state.start) {
       this.props.history.push(`/game/${this.state.code}`);
     }
 
     this.socket.emit("join room", {
-      room: this.state.code
+      room: this.state.code,
+      name: this.state.name
     });
   };
 
@@ -40,6 +76,10 @@ class Room extends Component {
     }
   }
 
+  // componentWillUnmount() {
+  //   this.leaveGame();
+  // }
+
   // joinRoom(data) {
   //   const roomsArr = this.state.rooms.slice();
   //   roomsArr.push(data);
@@ -47,6 +87,21 @@ class Room extends Component {
   //     rooms: roomsArr
   //   });
   // }
+
+  leaveGame = () => {
+    this.socket.emit("leave game", {
+      name: this.state.name,
+      room: this.state.code
+    });
+  };
+
+  leaveGameBtn = () => {
+    this.socket.emit("leave game", {
+      name: this.state.name,
+      room: this.state.code
+    });
+    this.props.history.push("/");
+  };
 
   handleStart = () => {
     this.setState(
@@ -70,13 +125,22 @@ class Room extends Component {
     if (this.state.host) {
       component = (
         <Host
+          leaveGameFn={this.leaveGameBtn}
+          players={this.state.players}
           handleStartFn={this.handleStart}
           name={this.state.name}
           code={this.state.code}
         />
       );
     } else {
-      component = <Join name={this.state.name} code={this.state.code} />;
+      component = (
+        <Join
+          leaveGameFn={this.leaveGameBtn}
+          players={this.state.players}
+          name={this.state.name}
+          code={this.state.code}
+        />
+      );
     }
 
     return <div className="room">{component}</div>;

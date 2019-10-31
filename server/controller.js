@@ -16,7 +16,7 @@ module.exports = {
     if (game[0] && game[0].joinable) {
       return res.status(200).send(game[0]);
     }
-    return res.sendStatus(404);
+    return res.status(200).send('game not found');
   },
 
   createGame: async (req, res) => {
