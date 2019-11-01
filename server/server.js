@@ -64,7 +64,8 @@ io.on("connection", socket => {
     socket.join(data.room);
     io.in(data.room).emit("game data", {
       name: data.name,
-      room: data.room
+      room: data.room,
+      answers: data.answers
     });
   });
 
@@ -92,5 +93,8 @@ io.on("connection", socket => {
   
   socket.on('update list', data => {
     io.to(data.room).emit('update list', data)
+  })
+  socket.on('update answers', data => {
+    io.to(data.room).emit('update answers', data)
   })
 });
