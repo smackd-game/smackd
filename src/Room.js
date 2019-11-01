@@ -26,9 +26,18 @@ class Room extends Component {
 
     // this.socket.on("join room", data => this.joinRoom(data));
     this.socket.on("game data", data => {
-      if (data.room === this.props.match.params.code && this.state.host) {
+      if (data.room === this.state.code && this.state.host) {
         this.setState({
-          players: [...this.state.players, data.name]
+          players: [
+            ...this.state.players,
+            {
+              name: data.name,
+              code: data.room,
+              answer: data.answer,
+              roundPoints: data.roundPoints,
+              totalPoints: data.totalPoints
+            }
+          ]
         });
         this.socket.emit("update list", {
           players: this.state.players,
@@ -71,11 +80,14 @@ class Room extends Component {
 
     this.socket.emit("join room", {
       room: this.state.code,
-      name: this.state.name
+      name: this.state.name,
+      answer: "",
+      roundPoints: null,
+      totalPoints: null
     });
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     if (this.state.start) {
       this.socket.emit("start", {
         room: this.state.code
@@ -129,12 +141,15 @@ class Room extends Component {
   };
 
   render() {
+    const playersArr = this.state.players.map(el => {
+      return el.name;
+    });
     let component;
     if (this.state.host) {
       component = (
         <Host
           leaveGameFn={this.leaveGameBtn}
-          players={this.state.players}
+          players={playersArr}
           handleStartFn={this.handleStart}
           name={this.state.name}
           code={this.state.code}
@@ -144,7 +159,7 @@ class Room extends Component {
       component = (
         <Join
           leaveGameFn={this.leaveGameBtn}
-          players={this.state.players}
+          players={playersArr}
           name={this.state.name}
           code={this.state.code}
         />

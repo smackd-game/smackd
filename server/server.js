@@ -57,32 +57,34 @@ io.on("connection", socket => {
   console.log("a user has connected");
 
   socket.on("disconnect", () => {
-    console.log("a user has disconnected", socket.id);    
+    console.log("a user has disconnected", socket.id);
   });
+
   socket.on("join room", data => {
     console.log(`${data.name} has joined room ${data.room}`);
     socket.join(data.room);
     io.in(data.room).emit("game data", {
       name: data.name,
       room: data.room,
-      answers: data.answers
+      answer: data.answer,
+      roundPoints: data.roundPoints,
+      totalPoints: data.totalPoints
     });
-    
   });
 
-  socket.on('start', data => {
-    console.log(data.room)
-    socket.to(data.room).emit('start', 'get ready to start')
-  })
+  socket.on("start", data => {
+    console.log(data.room);
+    socket.to(data.room).emit("start", "get ready to start");
+  });
 
-  socket.on('leave game', data => {
-    socket.leave(data.room)
-    console.log(`${data.name} has left the room`)
+  socket.on("leave game", data => {
+    socket.leave(data.room);
+    console.log(`${data.name} has left the room`);
     io.in(data.room).emit("leave", {
       name: data.name,
       room: data.room
     });
-  })
+  });
 
   socket.on("emit to room socket", data => {
     socket.emit("room response", data);
@@ -90,13 +92,14 @@ io.on("connection", socket => {
 
   socket.on("blast to room socket", data => {
     io.to(data.room).emit("room response", data);
-  })
-  
-  socket.on('update list', data => {
-    io.to(data.room).emit('update list', data)
-  })
-  socket.on('update answers', data => {
-    io.to(data.room).emit('update answers', data)
-    console.log('emitting updated answers')
-  })
+  });
+
+  socket.on("update list", data => {
+    io.to(data.room).emit("update list", data);
+  });
+
+  socket.on("update answers", data => {
+    io.to(data.room).emit("update answers", data);
+    console.log("emitting updated answers");
+  });
 });
