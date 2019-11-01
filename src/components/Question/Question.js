@@ -9,19 +9,12 @@ class Question extends Component {
         }
     }
 
-    submit = () => {
-        this.setState({
-            answeredQuestion: true
-        })
-        console.log(this.state)
-    }
-
     render() {
         const players = this.props.players.map(el => <p>{el}</p>);
         return (
             <div className="question-container">
                
-                {!this.state.answeredQuestion ? (
+                {!this.props.answeredQuestion ? (
                 <>
                     <header className="question"><h3>{this.props.question}</h3></header>
                     <textarea
@@ -29,7 +22,7 @@ class Question extends Component {
                     type="text"
                     className="answer"
                     />
-                    <button className='landing-button' onClick={() => this.submit()}>
+                    <button className='landing-button' onClick={() => this.props.submitFN()}>
                     submit
                     </button>
                 </>

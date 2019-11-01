@@ -23,10 +23,29 @@ class GameParent extends Component {
       players: [],
       name: "",
       code: null,
-      host: null
+      host: null,
+      answeredQuestion: false
+
     };
     this.socket = io.connect();
-    
+    this.socket.on('answers data', data => {
+        if(data.room === this.props.match.params.code && this.state.host){
+            this.setState({
+                answers: [...this.state.answers, data.answer]
+            })
+            this.socket.emit('update answers', {
+                answers: this.state.answers,
+                room: this.state.room
+            })
+        }
+    })
+    this.socket.on("update answers", data => {
+        if (data.room === this.state.code && !this.state.host) {
+          this.setState({
+            answers: data.answers
+          });
+        }
+      });
     this.socket.on("game data", data => {
       if (data.room === this.props.match.params.code && this.state.host) {
         this.setState({
@@ -64,17 +83,26 @@ class GameParent extends Component {
 
   componentDidMount = async () => {
     const user = await axios.get("/user");
-    this.setState({
-      name: user.data.user.name,
-      code: user.data.user.code,
-      host: user.data.user.host
-    });
-
-    this.socket.emit("join room", {
-      room: this.state.code,
-      name: this.state.name
-    });
+    
+    if(user.data.user !== undefined){
+        console.log(user.data.user)
+        this.setState({
+            name: user.data.user.name,
+            code: user.data.user.code,
+            host: user.data.user.host,
+          });
+      
+          this.socket.emit("join room", {
+            room: this.state.code,
+            name: this.state.name
+          });
+    } else {
+        this.props.history.push(`/`)
+    }
+    
   };
+
+ 
 
   handleAnswerChange = value => {
     this.setState({
@@ -88,6 +116,20 @@ class GameParent extends Component {
       showQuestion: false
     });
   };
+
+  submit = () => {
+    if(this.state.answer !== ''){
+        let newAnswersArr = [...this.state.answers]
+        console.log(newAnswersArr)
+    newAnswersArr.push({text: this.state.answer, player: this.state.name, points: 0})
+    this.setState({
+        answers: newAnswersArr
+    })
+      }
+    this.setState({
+        answeredQuestion: true
+    })
+  }
 
   leaveGame = () => {
     this.props.history.push(`/`);
@@ -121,7 +163,7 @@ class GameParent extends Component {
   }
 
   render() {
-    console.log(this.state.players)
+    console.log(this.state)
     let component;
     if (this.state.showFinalResults) {
       component = <FinalResults />;
@@ -131,7 +173,8 @@ class GameParent extends Component {
                     handleChangeFn={this.handleAnswerChange}
                     answer={this.state.answer}
                     players={this.state.players}
-
+                    submitFN={this.submit}
+                    answeredQuestion={this.state.answeredQuestion}
       />;
     } else if (this.state.showVote) {
       component = <Vote question={this.state.gameQuestion} />;
