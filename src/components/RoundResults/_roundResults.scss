@@ -1,4 +1,8 @@
 @import '../../variables';
 .round-results-container {
     background: $brand;
+    height: 100vh;
+    h2{
+        margin: 0 auto;
+    }
 }

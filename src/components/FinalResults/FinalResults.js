@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './_finalResults.scss'
 
 class FinalResults extends Component {
     constructor() {
@@ -17,8 +18,8 @@ class FinalResults extends Component {
                 <ul>
                     <li>Loser 1 (We will map out the losers here)</li>
                 </ul>
-                <button>Play Again/Continue</button>
-                <button>Leave</button>
+                <button className='landing-button' >Play Again/Continue</button>
+                <button className='landing-button' >Leave</button>
             </div>
         )
     }

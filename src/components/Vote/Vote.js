@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
+import "./_vote.scss"
 
 class Vote extends Component {
     constructor() {
         super()
         this.state = {
-            hasVoted: ''
+            // hasVoted: ''
         }
     }
     vote = () => {
@@ -15,21 +16,30 @@ class Vote extends Component {
     }
 
     render() {
+        const players = this.props.players.map(el => <p>{el}</p>);
+        const answers = this.props.answers.map(el => <p>{el}</p>);
+
         return (
             <div className="vote-container">
                
-                {!this.state.hasVoted ? (
+                {!this.props.hasVoted ? (
                 <>
-                    <header className="vote"><p>{this.props.question}</p></header>
+                    <header className="vote"><h3>{this.props.question}</h3></header>
+
+                    <div onClick={() => this.props.voteFN()} className="answer">
+                    <p>An answer will go here</p>
+                    <p>{answers}</p>
+                    </div>
                     
-                    <p onClick={() => this.vote()} >We will map out the answers here</p>
+                    
                 </>
                 ) : (
                 <>
-                    <header className="vote"><p>{this.props.question}</p></header>
-                    <hr/>
-                    <p>Still waiting on ... players "we can map the players who haven't voted yet here</p>
-                    <p>Give these players a dirty look until they answer</p>
+                    <header className="vote"><h3>{this.props.question}</h3></header>
+                    
+                    <p>Still waiting on:</p>
+                    <p>{players}</p>
+                    <p>Give these players a dirty look until they vote</p>
                     <p>Also we can put like a spinning wheel animation or something here</p>
                 </>
                 )}

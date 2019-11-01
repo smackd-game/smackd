@@ -1,4 +1,11 @@
 @import '../../variables';
 .final-results-container {
     background: $accent;
+    height: 100vh;
+    h2{
+        margin: 0 auto;
+    }
+}
+.landing-button{
+    overflow: hidden;
 }
