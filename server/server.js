@@ -102,4 +102,6 @@ io.on("connection", socket => {
     io.to(data.room).emit("update answers", data);
     console.log("emitting updated answers");
   });
+
+
 });
