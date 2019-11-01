@@ -30,40 +30,46 @@ export default class GameParent extends Component {
     };
     //Socket listeners
     this.socket = io.connect();
-    this.socket.on("update answers", data => {
-      if (data.room === this.state.code && !this.state.host) {
+    this.socket.on("start", data => {
+      console.log(data);
+      if (data === "get ready to start") {
         this.setState({
-          answers: data.answers
+          start: true
         });
       }
     });
+
+    // this.socket.on("join room", data => this.joinRoom(data));
     this.socket.on("game data", data => {
       if (data.room === this.state.code && this.state.host) {
         this.setState({
-          players: [...this.state.players, data.name]
+          players: [
+            ...this.state.players,
+            {
+              name: data.name,
+              code: data.room,
+              answer: data.answer,
+              roundPoints: data.roundPoints,
+              totalPoints: data.totalPoints
+            }
+          ]
         });
         this.socket.emit("update list", {
           players: this.state.players,
-          room: this.state.code,
-          answers: this.state.answers
+          room: this.state.code
         });
       }
     });
     this.socket.on("update list", data => {
       if (data.room === this.state.code && !this.state.host) {
         this.setState({
-          players: data.players,
-          answers: this.state.answers
+          players: data.players
         });
       }
     });
     this.socket.on("leave", data => {
       if (data.room === this.state.code) {
         let updatedArr = [...this.state.players];
-        let updatedAns = [...this.state.answers];
-        let indexA = updatedAns.findIndex(el => {
-          return el === data.answers.player;
-        });
         const index = updatedArr.findIndex(el => {
           return el === data.name;
         });
@@ -74,34 +80,36 @@ export default class GameParent extends Component {
             players: updatedArr
           });
         }
-        if (indexA !== -1) {
-          updatedAns.splice(indexA, 1);
-          this.setState({
-            answers: updatedAns
-          });
-        }
       }
     });
   }
   //Normal functions within Component
 
   componentDidMount = async () => {
+    
     const user = await axios.get("/user");
-
-    if (user.data.user !== undefined) {
-      this.setState({
-        name: user.data.user.name,
-        code: user.data.user.code,
-        host: user.data.user.host
-      });
-
-      this.socket.emit("join room", {
-        room: this.state.code,
-        name: this.state.name
-      });
+    this.setState({
+      name: user.data.user.name,
+      code: user.data.user.code,
+      host: user.data.user.host
+    });
+    if(this.state.players.length !== 0){
+        this.socket.emit("update answers", {
+            players: this.state.players
+        })
+    
     } else {
-      // this.props.history.push(`/`)
+        console.log('the players array was empty fool')
     }
+       
+    
+    this.socket.emit("join room", {
+      room: this.state.code,
+      name: this.state.name,
+      answer: "",
+      roundPoints: null,
+      totalPoints: null
+    });
 
     axios.get("/api/questions").then(res => {
       this.setState({
@@ -156,24 +164,35 @@ export default class GameParent extends Component {
   };
 
   submit = () => {
-    // const index = this.state.players.findIndex(el => {
-    //   this.state.name === el.name
-    // })
-    if (this.state.players !== "") {
-      let newAnswersArr = [...this.state.answers];
-      newAnswersArr.push({
-        text: this.state.answer,
-        player: this.state.name,
-        points: 0
-      });
-      this.setState({
-        answers: newAnswersArr
-      });
-    }
+    let answer = this.state.answer
+    let index = this.state.players.findIndex(el => el.name === this.state.name) 
+    let newPlayersArr = [...this.state.players]
+    newPlayersArr[index].answer = answer
+
+    this.setState({
+        players: newPlayersArr
+    })
+
     this.setState({
       answeredQuestion: true
     });
-  };
+  
+    
+    // const index = this.state.players.findIndex(el => {
+    //   this.state.name === el.name
+    // })
+    // if (this.state.players !== "") {
+    //   let newAnswersArr = [...this.state.answers];
+    //   newAnswersArr.push({
+    //     text: this.state.answer,
+    //     player: this.state.name,
+    //     points: 0
+    //   });
+    //   this.setState({
+    //     answers: newAnswersArr
+    //   });
+    // }
+}
 
   leaveGame = () => {
     this.props.history.push(`/`);
@@ -211,6 +230,9 @@ export default class GameParent extends Component {
 
   render() {
     console.log(this.state);
+    const playersNames = this.state.players.map(el => {
+        return el.name;
+      });
     let component;
     if (this.state.showFinalResults) {
       component = <FinalResults />;
@@ -220,7 +242,7 @@ export default class GameParent extends Component {
           question={this.state.gameQuestion}
           handleChangeFn={this.handleAnswerChange}
           answer={this.state.answer}
-          players={this.state.players}
+          players={playersNames}
           submitFN={this.submit}
           answeredQuestion={this.state.answeredQuestion}
         />
@@ -231,7 +253,7 @@ export default class GameParent extends Component {
           question={this.state.gameQuestion}
           hasVoted={this.state.hasVoted}
           voteFN={this.vote}
-          players={this.state.players}
+          players={playersNames}
           answers={this.state.answers}
         />
       );
