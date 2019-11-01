@@ -24,7 +24,10 @@ export default class GameParent extends Component {
             host: false,
             answeredQuestion: false,
             hasVoted: false,
-            isReady: false
+            isReady: false,
+            originalQuestions: [],
+            usedQuestions: []
+
         };
         //Socket listeners
         this.socket = io.connect();
@@ -101,6 +104,12 @@ export default class GameParent extends Component {
             // this.props.history.push(`/`)
         }
 
+        axios.get("/api/questions").then(res => {
+            this.setState({
+              originalQuestions: res.data
+            });
+          });
+
     };
 
 
@@ -110,6 +119,27 @@ export default class GameParent extends Component {
             answer: value
         });
     };
+
+    getQuestion = () => {
+        let question;
+        let questionsCopy;
+        let index;
+        if (this.state.usedQuestions.length === 0) {
+          index = Math.floor(Math.random() * this.state.originalQuestions.length);
+          question = this.state.originalQuestions[index].text;
+          questionsCopy = [...this.state.originalQuestions];
+        } else {
+          index = Math.floor(Math.random() * this.state.usedQuestions.length);
+          question = this.state.usedQuestions[index].text;
+          questionsCopy = this.state.usedQuestions.slice();
+        }
+        questionsCopy.splice(index, 1);
+        this.setState({
+          usedQuestions: questionsCopy
+        });
+        return question;
+      };
+    
 
     moveToVoting = () => {
         this.setState({
