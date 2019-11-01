@@ -49,7 +49,10 @@ class Landing extends Component {
   };
 
   joinGame = async () => {
-    const game = await axios.get(`/api/games/${this.state.code}`);
+    if(this.state.name === ''){
+        swal.fire('Please Enter a Name AND a Code First')
+    } else {
+      const game = await axios.get(`/api/games/${this.state.code}`);
     console.log(game)
     if (game.data !== 'game not found') {
       axios
@@ -64,20 +67,27 @@ class Landing extends Component {
     } else {
       swal.fire("That game doesn't exist dummy");
     }
+    }
+    
   };
 
   hostGame = () => {
-    axios.post(`/api/games/${this.state.code}`).then(() => {
-      axios
-        .post("/user", {
-          name: this.state.name,
-          host: this.state.isHost,
-          code: this.state.code
-        })
-        .then(() => {
-          this.props.history.push(`/lobby/${this.state.code}`);
-        });
-    });
+    if(this.state.name === ''){
+      swal.fire('Please Enter a Name First')
+    } else {
+      axios.post(`/api/games/${this.state.code}`).then(() => {
+        axios
+          .post("/user", {
+            name: this.state.name,
+            host: this.state.isHost,
+            code: this.state.code
+          })
+          .then(() => {
+            this.props.history.push(`/lobby/${this.state.code}`);
+          });
+      });
+    }
+    
   };
 
   render() {
@@ -92,12 +102,15 @@ class Landing extends Component {
             nemo ducimus, ipsam sed enim! Provident necessitatibus eos
             distinctio error officiis explicabo aliquid pariatur.
           </p>
-          <button className='landing-button' onClick={() => this.switchToHost()} >
-            Host
-          </button>
-          <button className='landing-button' onClick={() => this.switchToJoin()}>
-            Join
-          </button>
+          <div className="landingbuttons">
+            <button className='landing-button' onClick={() => this.switchToHost()} >
+              Host
+            </button>
+            <button className='landing-button' onClick={() => this.switchToJoin()}>
+              Join
+            </button>
+          </div>
+          
         </div>
       );
     } else if (this.state.showHost === true) {

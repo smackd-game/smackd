@@ -7,6 +7,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     h1{
         margin: 0 auto;
         color: $tateBuzzLightYearPurple
@@ -43,4 +44,10 @@
     border: 2px black solid;
     border-radius: 10px;
     box-shadow: 3px 3px 2px 1px rgba(0, 0, 255, .2);
+}
+.landingbuttons{
+    width: 60vw;
+    margin: 5vh auto;
+    display: flex;
+    justify-content: space-between;
 }

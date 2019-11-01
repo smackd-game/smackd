@@ -28,17 +28,6 @@ export default class GameParent extends Component {
         };
         //Socket listeners
         this.socket = io.connect();
-        this.socket.on('answers data', data => {
-            if (data.room === this.props.match.params.code && this.state.host) {
-                this.setState({
-                    answers: [...this.state.answers, data.answer]
-                })
-                this.socket.emit('update answers', {
-                    answers: this.state.answers,
-                    room: this.state.room
-                })
-            }
-        })
         this.socket.on("update answers", data => {
             if (data.room === this.state.code && !this.state.host) {
                 this.setState({
@@ -49,24 +38,30 @@ export default class GameParent extends Component {
         this.socket.on("game data", data => {
             if (data.room === this.props.match.params.code && this.state.host) {
                 this.setState({
-                    players: [...this.state.players, data.name]
+                    players: [...this.state.players, data.name],
                 });
                 this.socket.emit("update list", {
                     players: this.state.players,
-                    room: this.state.code
+                    room: this.state.code,
+                    answers: this.state.answers
                 });
             }
         });
         this.socket.on("update list", data => {
             if (data.room === this.state.code && !this.state.host) {
                 this.setState({
-                    players: data.players
+                    players: data.players,
+                    answers: this.state.answers
                 });
             }
         });
         this.socket.on("leave", data => {
             if (data.room === this.state.code) {
                 let updatedArr = [...this.state.players];
+                let updatedAns = [...this.state.answers]
+                let indexA = updatedAns.findIndex(el => {
+                    return el === data.answers.player
+                })
                 const index = updatedArr.findIndex(el => {
                     return el === data.name;
                 });
@@ -76,6 +71,12 @@ export default class GameParent extends Component {
                     this.setState({
                         players: updatedArr
                     });
+                }
+                if(indexA !== -1) {
+                    updatedAns.splice(indexA, 1);
+                    this.setState({
+                        answers: updatedAns
+                    })
                 }
             }
         });
