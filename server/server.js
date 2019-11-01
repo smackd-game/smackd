@@ -67,6 +67,7 @@ io.on("connection", socket => {
       room: data.room,
       answers: data.answers
     });
+    
   });
 
   socket.on('start', data => {
@@ -96,5 +97,6 @@ io.on("connection", socket => {
   })
   socket.on('update answers', data => {
     io.to(data.room).emit('update answers', data)
+    console.log('emitting updated answers')
   })
 });
