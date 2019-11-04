@@ -58,6 +58,10 @@ export default class GameParent extends Component {
           players: this.state.players,
           room: this.state.code
         });
+        this.socket.emit('update answers', {
+            players: this.state.players,
+            room: this.state.code
+        })
       }
     });
     this.socket.on("update list", data => {
@@ -67,6 +71,14 @@ export default class GameParent extends Component {
         });
       }
     });
+    
+    this.socket.on("update answers", data => {
+        if (data.room === this.state.code) {
+          this.setState({
+            players: data.players
+          });
+        }
+      });
     this.socket.on("leave", data => {
       if (data.room === this.state.code) {
         let updatedArr = [...this.state.players];
@@ -110,6 +122,7 @@ export default class GameParent extends Component {
       roundPoints: null,
       totalPoints: null
     });
+
 
     axios.get("/api/questions").then(res => {
       this.setState({
@@ -176,6 +189,11 @@ export default class GameParent extends Component {
     this.setState({
       answeredQuestion: true
     });
+
+    this.socket.emit('update answers', {
+        players: this.state.players,
+        room: this.state.code
+    })
   
     
     // const index = this.state.players.findIndex(el => {
@@ -233,6 +251,9 @@ export default class GameParent extends Component {
     const playersNames = this.state.players.map(el => {
         return el.name;
       });
+    const playersAnswers = this.state.players.map(el => {
+        return el.answer;
+      });
     let component;
     if (this.state.showFinalResults) {
       component = <FinalResults />;
@@ -254,7 +275,7 @@ export default class GameParent extends Component {
           hasVoted={this.state.hasVoted}
           voteFN={this.vote}
           players={playersNames}
-          answers={this.state.answers}
+          answers={playersAnswers}
         />
       );
     } else if (this.state.showRoundResults) {
