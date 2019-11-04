@@ -32,7 +32,6 @@ export default class GameParent extends Component {
     //Socket listeners
     this.socket = io.connect();
     this.socket.on("start", data => {
-      console.log(data);
       if (data === "get ready to start") {
         this.setState({
           start: true
@@ -40,7 +39,7 @@ export default class GameParent extends Component {
       }
     });
 
-    // this.socket.on("join room", data => this.joinRoom(data));
+
     this.socket.on("game data", data => {
       if (data.room === this.state.code && this.state.host) {
         this.setState({
@@ -65,6 +64,7 @@ export default class GameParent extends Component {
         });
       }
     });
+
     this.socket.on("update list", data => {
       if (data.room === this.state.code && !this.state.host) {
         this.setState({
@@ -73,13 +73,15 @@ export default class GameParent extends Component {
       }
     });
 
-    this.socket.on("update answers", data => {
+    this.socket.on("receive answers", data => {
+      console.log(data);
       if (data.room === this.state.code) {
         this.setState({
           players: data.players
         });
       }
     });
+
     this.socket.on("leave", data => {
       if (data.room === this.state.code) {
         let updatedArr = [...this.state.players];
@@ -97,37 +99,38 @@ export default class GameParent extends Component {
     });
     this.socket.on("receive answer", data => {
       if (this.state.host) {
-        console.log(data);
         let answer = data.answer;
         let newPlayersArr = [...this.state.players];
-        console.log(newPlayersArr);
         let index = newPlayersArr.findIndex(el => el.name === data.name);
-        console.log(index);
         if (index === -1) {
           newPlayersArr.push(data);
         } else {
           newPlayersArr[index].answer = answer;
         }
-        console.log(newPlayersArr);
         this.setState({
           players: newPlayersArr
         });
         this.socket.emit("update answers", {
-          players: newPlayersArr
+          players: newPlayersArr,
+          room: this.state.code
         });
       }
     });
-    this.socket.on("update answers", data => {
+
+    this.socket.on("receive question", data => {
       this.setState({
-        players: data.players
+        gameQuestion: data.question
       });
     });
+    // this.socket.on("received vote", data => {
+    //   this.setState({});
+    // });
   }
   //Normal functions within Component
 
   componentDidMount = async () => {
     const user = await axios.get("/user");
-    
+
     this.setState({
       name: user.data.user.name,
       code: user.data.user.code,
@@ -151,31 +154,23 @@ export default class GameParent extends Component {
     });
 
     axios.get("/api/questions").then(res => {
-        console.log(res.data)
       this.setState({
         originalQuestions: res.data
       });
-      console.log(this.state.originalQuestions)
-      this.getQuestion()
-
+      this.getQuestion();
     });
   };
 
-  componentDidUpdate(prevProps, prevState){
-      if(prevState.players !== this.state.players){
-        let playersAnswers = this.state.players.filter(
-            el => el.answer
-          );
-    console.log(playersAnswers)
-    console.log(this.state.players)
-    if(this.state.players.length === playersAnswers.length){
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.players !== this.state.players) {
+      let playersAnswers = this.state.players.filter(el => el.answer);
+      if (this.state.players.length === playersAnswers.length) {
         this.setState({
-            showQuestion: false,
-            showVote: true
-        })
-    }
+          showQuestion: false,
+          showVote: true
+        });
       }
-   
+    }
   }
 
   handleAnswerChange = value => {
@@ -185,26 +180,31 @@ export default class GameParent extends Component {
   };
 
   getQuestion = async () => {
-      console.log(this.state.originalQuestions)
-    let question;
-    let questionsCopy;
-    let index;
-     if (this.state.usedQuestions.length === 0) {
-      index = Math.floor(Math.random() * this.state.originalQuestions.length);
-      question = this.state.originalQuestions[index].text;
-      questionsCopy = [...this.state.originalQuestions];
-    } else {
-      index = Math.floor(Math.random() * this.state.usedQuestions.length);
-      question = this.state.usedQuestions[index].text;
-      questionsCopy = this.state.usedQuestions.slice();
-    }
-    questionsCopy.splice(index, 1);
-    this.setState({
-      usedQuestions: questionsCopy
-    });
-    await this.setState({
+    if (this.state.host) {
+      let question;
+      let questionsCopy;
+      let index;
+      if (this.state.usedQuestions.length === 0) {
+        index = Math.floor(Math.random() * this.state.originalQuestions.length);
+        question = this.state.originalQuestions[index].text;
+        questionsCopy = [...this.state.originalQuestions];
+      } else {
+        index = Math.floor(Math.random() * this.state.usedQuestions.length);
+        question = this.state.usedQuestions[index].text;
+        questionsCopy = this.state.usedQuestions.slice();
+      }
+      questionsCopy.splice(index, 1);
+      this.setState({
+        usedQuestions: questionsCopy
+      });
+      await this.setState({
         gameQuestion: question
-    }) 
+      });
+      this.socket.emit("send question", {
+        question: this.state.gameQuestion,
+        room: this.state.code
+      });
+    }
   };
 
   moveToVoting = () => {
@@ -214,10 +214,27 @@ export default class GameParent extends Component {
     });
   };
 
-  vote = () => {
+  vote = (name) => {
+    const playersCopy = [...this.state.players];
+    const index = playersCopy.findIndex(
+      el => el.name === name
+    );
+    playersCopy[index].roundPoints += 5
+
     this.setState({
       hasVoted: true
     });
+    playersCopy[index].didVote = true;
+    if (this.state.host) {
+      this.socket.emit("has voted", {
+        name: this.state.name,
+        room: this.state.code,
+        answer: this.state.answer,
+        roundPoints: null,
+        totalPoints: null,
+        didVote: this.state.hasVoted
+      });
+    }
   };
 
   clickedReady = () => {
@@ -226,49 +243,12 @@ export default class GameParent extends Component {
     });
   };
 
-  
-
-  // submit = () => {
-  //   let answer = this.state.answer;
-  //   let index = this.state.players.findIndex(el => el.name === this.state.name);
-  //   let newPlayersArr = [...this.state.players];
-  //   console.log(newPlayersArr);
-  //   newPlayersArr[index].answer = answer;
-  //   console.log(newPlayersArr);
-
-  //   // const playersAnswers = this.state.players.map(el => {
-  //   //   if (el.answer !== "" || el.answer !== undefined) return el.answer;
-  //   // });
-  //   let playersAnswers = this.state.players.filter(
-  //     el => el.answer
-  //   );
-  //   console.log(newPlayersArr);
-
-  //   this.setState({
-  //     players: newPlayersArr
-  //   });
-
-  //   this.setState({
-  //     answeredQuestion: true
-  //   });
-
-  //   if (playersAnswers.length === this.state.players.length) {
-  //     console.log(this.state.players)
-  //     this.setState({
-  //       showQuestion: false,
-  //       showVote: true
-  //     });
-  //   }
-
-  //   this.socket.emit("update answers", {
-  //     players: this.state.players,
-  //     room: this.state.code
-  //   });
-
   submit = () => {
     this.setState({
       answeredQuestion: true
     });
+
+    console.log("sent answer", this.state.answer)
 
     this.socket.emit("send answer", {
       name: this.state.name,
@@ -277,53 +257,29 @@ export default class GameParent extends Component {
       roundPoints: null,
       totalPoints: null
     });
-
-    // let playersAnswers = this.state.players.filter(el => el.answer);
-
-    // if (playersAnswers.length === this.state.players.length) {
-    //   this.setState({
-    //     showQuestion: false,
-    //     showVote: true
-    //   });
-    // }
   };
-
-  // const index = this.state.players.findIndex(el => {
-  //   this.state.name === el.name
-  // })
-  // if (this.state.players !== "") {
-  //   let newAnswersArr = [...this.state.answers];
-  //   newAnswersArr.push({
-  //     text: this.state.answer,
-  //     player: this.state.name,
-  //     points: 0
-  //   });
-  //   this.setState({
-  //     answers: newAnswersArr
-  //   });
-  // }
 
   leaveGame = () => {
     this.props.history.push(`/`);
   };
 
   moveToResults = () => {
-    if(this.state.round === this.state.numberOfRounds){
-        this.setState({
-            showVote: false,
-            showFinalResults: true
-        }) 
-    } else if(this.state.round !== this.state.numberOfRounds){
-        this.setState({ 
-            showRoundResults: true,
-            showVote: false
-        })
+    if (this.state.round === this.state.numberOfRounds) {
+      this.setState({
+        showVote: false,
+        showFinalResults: true
+      });
+    } else if (this.state.round !== this.state.numberOfRounds) {
+      this.setState({
+        showRoundResults: true,
+        showVote: false
+      });
     }
   };
 
   moveToNextRound = () => {
     let currentRound = this.state.round;
-    let nextRound = currentRound ++;
+    let nextRound = currentRound++;
     this.setState({
       showRoundResults: false,
       showQuestion: true,
@@ -340,13 +296,12 @@ export default class GameParent extends Component {
   //render function
 
   render() {
-    console.log(this.state);
     const playersNames = this.state.players.map(el => {
       return el.name;
     });
-    const playersAnswers = this.state.players.map(el => {
-      return el.answer;
-    });
+    // const playersAnswers = this.state.players.map(el => {
+    //   return {answer: el.answer, name: el.name};
+    // });
     let component;
     if (this.state.showFinalResults) {
       component = <FinalResults />;
@@ -367,8 +322,7 @@ export default class GameParent extends Component {
           question={this.state.gameQuestion}
           hasVoted={this.state.hasVoted}
           voteFN={this.vote}
-          players={playersNames}
-          answers={playersAnswers}
+          players={this.state.players}
         />
       );
     } else if (this.state.showRoundResults) {
@@ -380,14 +334,14 @@ export default class GameParent extends Component {
         />
       );
     } else if (this.state.showFinalResults) {
-        component = (
-          <FinalResults
-            players={playersNames}
-            isReady={this.state.isReady}
-            clickedReadyFN={this.clickedReady}
-          />
-        );
-      }
+      component = (
+        <FinalResults
+          players={playersNames}
+          isReady={this.state.isReady}
+          clickedReadyFN={this.clickedReady}
+        />
+      );
+    }
     return <div className="room">{component}</div>;
   }
 }

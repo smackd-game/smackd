@@ -109,7 +109,7 @@ io.on("connection", socket => {
   });
 
   socket.on("update answers", data => {
-    io.to(data.room).emit("update answers", data);
+    io.to(data.room).emit("receive answers", data);
     console.log("emitting updated answers");
   });
 
@@ -118,5 +118,7 @@ io.on("connection", socket => {
     console.log("sending answers");
   });
 
-
+  socket.on("send question", data => {
+    io.to(data.room).emit("receive question", data);
+  });
 });

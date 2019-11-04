@@ -60,7 +60,6 @@ class Landing extends Component {
         swal.fire('Please Enter a Name AND a Code First')
     } else {
       const game = await axios.get(`/api/games/${this.state.code}`);
-    console.log(game)
     if (game.data !== 'game not found' && game.data.joinable) {
       axios
         .post("/user", {
