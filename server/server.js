@@ -77,6 +77,16 @@ io.on("connection", socket => {
     socket.to(data.room).emit("start", "get ready to start");
   });
 
+  socket.on("voted", data => {
+    console.log(data.room);
+    socket.to(data.room).emit("voted", "everyone has voted");
+  });
+
+  socket.on("results", data => {
+    console.log(data.room);
+    socket.to(data.room).emit("results", "results are in");
+  });
+
   socket.on("leave game", data => {
     socket.leave(data.room);
     console.log(`${data.name} has left the room`);
@@ -99,9 +109,13 @@ io.on("connection", socket => {
   });
 
   socket.on("update answers", data => {
-    console.log(data)
     io.to(data.room).emit("update answers", data);
     console.log("emitting updated answers");
+  });
+
+  socket.on("send answer", data => {
+    io.to(data.room).emit("receive answer", data);
+    console.log("sending answers");
   });
 
 
