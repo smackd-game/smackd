@@ -15,7 +15,7 @@ export default class GameParent extends Component {
       showRoundResults: false,
       showVote: false,
       round: 1,
-      gameQuestion: "When will the world end?",
+      gameQuestion: "",
       answer: "",
       answers: [],
       players: [],
@@ -26,7 +26,8 @@ export default class GameParent extends Component {
       hasVoted: false,
       isReady: false,
       originalQuestions: [],
-      usedQuestions: []
+      usedQuestions: [],
+      numberOfRounds: null
     };
     //Socket listeners
     this.socket = io.connect();
@@ -126,10 +127,12 @@ export default class GameParent extends Component {
 
   componentDidMount = async () => {
     const user = await axios.get("/user");
+    
     this.setState({
       name: user.data.user.name,
       code: user.data.user.code,
-      host: user.data.user.host
+      host: user.data.user.host,
+      numberOfRounds: user.data.user.numberOfRounds
     });
     if (this.state.players.length !== 0) {
       this.socket.emit("update answers", {
@@ -148,11 +151,32 @@ export default class GameParent extends Component {
     });
 
     axios.get("/api/questions").then(res => {
+        console.log(res.data)
       this.setState({
         originalQuestions: res.data
       });
+      console.log(this.state.originalQuestions)
+      this.getQuestion()
+
     });
   };
+
+  componentDidUpdate(prevProps, prevState){
+      if(prevState.players !== this.state.players){
+        let playersAnswers = this.state.players.filter(
+            el => el.answer
+          );
+    console.log(playersAnswers)
+    console.log(this.state.players)
+    if(this.state.players.length === playersAnswers.length){
+        this.setState({
+            showQuestion: false,
+            showVote: true
+        })
+    }
+      }
+   
+  }
 
   handleAnswerChange = value => {
     this.setState({
@@ -160,11 +184,12 @@ export default class GameParent extends Component {
     });
   };
 
-  getQuestion = () => {
+  getQuestion = async () => {
+      console.log(this.state.originalQuestions)
     let question;
     let questionsCopy;
     let index;
-    if (this.state.usedQuestions.length === 0) {
+     if (this.state.usedQuestions.length === 0) {
       index = Math.floor(Math.random() * this.state.originalQuestions.length);
       question = this.state.originalQuestions[index].text;
       questionsCopy = [...this.state.originalQuestions];
@@ -177,7 +202,9 @@ export default class GameParent extends Component {
     this.setState({
       usedQuestions: questionsCopy
     });
-    return question;
+    await this.setState({
+        gameQuestion: question
+    }) 
   };
 
   moveToVoting = () => {
@@ -198,6 +225,8 @@ export default class GameParent extends Component {
       isReady: true
     });
   };
+
+  
 
   // submit = () => {
   //   let answer = this.state.answer;
@@ -279,25 +308,27 @@ export default class GameParent extends Component {
   };
 
   moveToResults = () => {
-    //We will need an if statement here that checks if it is the last round or not
-    //if it is not the last round then we will fire
-    this.setState({
-      showQuestion: false,
-      showRoundResults: true
-    });
-    //if it is the last round, then we will fire this
-    this.setState({
-      showQuestion: false,
-      showFinalResults: true
-    });
+    if(this.state.round === this.state.numberOfRounds){
+        this.setState({
+            showVote: false,
+            showFinalResults: true
+        }) 
+    } else if(this.state.round !== this.state.numberOfRounds){
+        this.setState({ 
+            showRoundResults: true,
+            showVote: false
+        })
+    }
   };
 
   moveToNextRound = () => {
+    let currentRound = this.state.round;
+    let nextRound = currentRound ++;
     this.setState({
       showRoundResults: false,
-      showQuestion: true
+      showQuestion: true,
+      round: nextRound
     });
-    //also need to increment one to round
   };
 
   handleClick(key) {
@@ -348,7 +379,15 @@ export default class GameParent extends Component {
           clickedReadyFN={this.clickedReady}
         />
       );
-    }
+    } else if (this.state.showFinalResults) {
+        component = (
+          <FinalResults
+            players={playersNames}
+            isReady={this.state.isReady}
+            clickedReadyFN={this.clickedReady}
+          />
+        );
+      }
     return <div className="room">{component}</div>;
   }
 }
