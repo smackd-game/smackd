@@ -11,7 +11,8 @@ class Landing extends Component {
       showHost: false,
       name: "",
       code: null,
-      isHost: false
+      isHost: false,
+      numberOfRounds: null
     };
   }
 
@@ -42,6 +43,12 @@ class Landing extends Component {
     });
   };
 
+  setRound = (val) => {
+    this.setState({
+      numberOfRounds: val
+    })
+  }
+
   handleChange = (e, key) => {
     this.setState({
       [key]: e.target.value
@@ -53,8 +60,7 @@ class Landing extends Component {
         swal.fire('Please Enter a Name AND a Code First')
     } else {
       const game = await axios.get(`/api/games/${this.state.code}`);
-    console.log(game)
-    if (game.data !== 'game not found') {
+    if (game.data !== 'game not found' && game.data.joinable) {
       axios
         .post("/user", {
           name: this.state.name,
@@ -72,18 +78,21 @@ class Landing extends Component {
   };
 
   hostGame = () => {
-    if(this.state.name === ''){
-      swal.fire('Please Enter a Name First')
+    if(!this.state.name || !this.state.numberOfRounds){
+      swal.fire('Please Enter a Name and Pick How Many Rounds')
     } else {
       axios.post(`/api/games/${this.state.code}`).then(() => {
         axios
           .post("/user", {
             name: this.state.name,
             host: this.state.isHost,
-            code: this.state.code
+            code: this.state.code,
+            numberOfRounds: this.state.numberOfRounds
           })
           .then(() => {
-            this.props.history.push(`/lobby/${this.state.code}`);
+           
+              this.props.history.push(`/lobby/${this.state.code}`);
+
           });
       });
     }
@@ -158,6 +167,13 @@ class Landing extends Component {
             placeholder="Enter Name"
             type="text"
           />
+          <p>How many rounds do you want to play MOFO?</p>
+          <div className="roundsbuttons">
+            <button onClick={() => this.setRound(3)} className="landing-button three">Three Rounds</button>
+            <button onClick={() => this.setRound(5)} className="landing-button five">Five Rounds</button>
+            <button onClick={() => this.setRound(7)} className="landing-button seven">Seven Rounds</button>
+
+          </div>
           <button className='landing-button' onClick={() => this.backFN()}>Go Back</button>
 
           <button className='landing-button' onClick={() => this.hostGame()} >Host Game</button> */}

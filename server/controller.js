@@ -46,13 +46,14 @@ module.exports = {
   },
 
   addUser: (req, res) => {
-    const {name, host, code} = req.body;
+    const {name, host, code, numberOfRounds} = req.body;
     const {session} = req;
 
     session.user = {
       name,
       host,
-      code
+      code,
+      numberOfRounds
     };
 
     res.status(200).send(session.user);
