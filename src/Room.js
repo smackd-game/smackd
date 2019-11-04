@@ -17,7 +17,6 @@ class Room extends Component {
     };
     this.socket = io.connect();
     this.socket.on("start", data => {
-      console.log(data);
       if (data === "get ready to start") {
         this.setState({
           start: true
@@ -25,7 +24,6 @@ class Room extends Component {
       }
     });
 
-    // this.socket.on("join room", data => this.joinRoom(data));
     this.socket.on("game data", data => {
       if (data.room === this.state.code && this.state.host) {
         this.setState({
@@ -73,7 +71,6 @@ class Room extends Component {
   componentDidMount = async () => {
     window.addEventListener("beforeunload", this.leaveGame);
     const user = await axios.get("/user");
-    console.log(user)
     this.setState({
       name: user.data.user.name,
       code: user.data.user.code,
@@ -127,15 +124,10 @@ class Room extends Component {
   };
 
   handleStart = async () => {
-    this.setState(
-      {
-        start: true
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
-    await axios.put(`/api/games/${this.state.code}`)
+    this.setState({
+      start: true
+    });
+    await axios.put(`/api/games/${this.state.code}`);
   };
 
   handleChange = value => {
