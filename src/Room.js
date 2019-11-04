@@ -12,7 +12,8 @@ class Room extends Component {
       code: this.props.match.params.code,
       name: "",
       start: false,
-      players: []
+      players: [],
+      numberOfRounds: null
     };
     this.socket = io.connect();
     this.socket.on("start", data => {
@@ -72,10 +73,12 @@ class Room extends Component {
   componentDidMount = async () => {
     window.addEventListener("beforeunload", this.leaveGame);
     const user = await axios.get("/user");
+    console.log(user)
     this.setState({
       name: user.data.user.name,
       code: user.data.user.code,
-      host: user.data.user.host
+      host: user.data.user.host,
+      numberOfRounds: user.data.user.numberOfRounds
     });
 
     this.socket.emit("join room", {
@@ -123,7 +126,7 @@ class Room extends Component {
     this.props.history.push("/");
   };
 
-  handleStart = () => {
+  handleStart = async () => {
     this.setState(
       {
         start: true
@@ -132,6 +135,7 @@ class Room extends Component {
         console.log(this.state);
       }
     );
+    await axios.put(`/api/games/${this.state.code}`)
   };
 
   handleChange = value => {
