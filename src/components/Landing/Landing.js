@@ -157,26 +157,28 @@ class Landing extends Component {
           <div className= "host-top">
             <div className = "back-arrow"></div>
           </div>
-          <div className= "host-middle"></div>
-          <div className= "host-bottom"></div>
-          {/* <h3>Host Game</h3>
-          <input
-            name="name"
-            value={this.state.name}
-            onChange={e => this.handleChange(e, "name")}
-            placeholder="Enter Name"
-            type="text"
-          />
-          <p>How many rounds do you want to play MOFO?</p>
-          <div className="roundsbuttons">
-            <button onClick={() => this.setRound(3)} className="landing-button three">Three Rounds</button>
-            <button onClick={() => this.setRound(5)} className="landing-button five">Five Rounds</button>
-            <button onClick={() => this.setRound(7)} className="landing-button seven">Seven Rounds</button>
+          <div className= "host-middle">
+          <h3>Host Game</h3>
+            <input
+              name="name"
+              value={this.state.name}
+              onChange={e => this.handleChange(e, "name")}
+              placeholder="Enter Name"
+              type="text"
+            />
+            <p>How many rounds do you want to play MOFO?</p>
+            <div className="roundsbuttons">
+              <button onClick={() => this.setRound(3)} className="landing-button three">Three Rounds</button>
+              <button onClick={() => this.setRound(5)} className="landing-button five">Five Rounds</button>
+              <button onClick={() => this.setRound(7)} className="landing-button seven">Seven Rounds</button>
 
+            </div>
+            <button className='landing-button' onClick={() => this.backFN()}>Go Back</button>
+
+            <button className='landing-button' onClick={() => this.hostGame()} >Host Game</button>
           </div>
-          <button className='landing-button' onClick={() => this.backFN()}>Go Back</button>
-
-          <button className='landing-button' onClick={() => this.hostGame()} >Host Game</button> */}
+          <div className= "host-bottom"></div>
+          
         </div>
       );
     } else if (this.state.showJoin === true) {

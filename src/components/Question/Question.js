@@ -11,6 +11,7 @@ class Question extends Component {
 
     render() {
         const players = this.props.players.map(el => <p>{el}</p>);
+        let haventAnswered = this.props.playersArr.map(el => <p>{!el.answer}</p>)
         return (
             <div className="question-container">
                
@@ -32,7 +33,7 @@ class Question extends Component {
                     
                     
                     <p>Still waiting on:</p>
-                    {players}
+                    {haventAnswered}
                     <p>Give them a dirty look until they answer the question</p>
                     <p>Also we can put like a spinning wheel animation or something here</p>
                 </>

@@ -10,13 +10,16 @@ class Vote extends Component {
   }
 
   render() {
+      let players = this.props.players
       // const players = this.props.players.map(el => <p>{el}</p>);
       // const answers = this.props.answers.map(el => <p>{el}</p>);
-      const answers = this.props.players.map(el => {
-          // return {answer: el.answer, name: el.name};
+      let answers = this.props.players.map(el => {
           return <p onClick={() => this.props.voteFN(el.name)}>{el.answer}</p>
         });
-        console.log(answers)
+      let haventVoted = players.map(el => {
+        return <p>{!el.didVote}</p>
+      })
+        // console.log(answers)
 
     return (
       <div className="vote-container">
@@ -38,10 +41,9 @@ class Vote extends Component {
             </header>
 
             <p>Still waiting on:</p>
+            {haventVoted}
             <p>Give these players a dirty look until they vote</p>
-            <p>
-              Also we can put like a spinning wheel animation or something here
-            </p>
+            
           </>
         )}
       </div>

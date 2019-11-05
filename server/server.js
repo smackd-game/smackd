@@ -74,18 +74,31 @@ io.on("connection", socket => {
 
   socket.on("start", data => {
     console.log(data.room);
-    socket.to(data.room).emit("start", "get ready to start");
+    io.to(data.room).emit("start", "get ready to start");
   });
 
-  socket.on("voted", data => {
-    console.log(data.room);
-    socket.to(data.room).emit("voted", "everyone has voted");
+  socket.on("has voted", data => {
+    console.log(data);
+    io.to(data.room).emit("voted", data);
   });
+  socket.on('ready for next round', data => {
+    console.log(`${data.name} is ready for the next round`)
+    io.to(data.room).emit('ready to go', data)
+  })
 
   socket.on("results", data => {
     console.log(data.room);
-    socket.to(data.room).emit("results", "results are in");
+    io.to(data.room).emit("results", "results are in");
   });
+
+  socket.on('resending voted data', data => {
+    console.log(data)
+    io.to(data.room).emit('getting voted data', data)
+  })
+  socket.on('resending ready for next round data', data => {
+    console.log('resending updated ready for next round data')
+    io.to(data.room).emit('get updated ready data', data)
+  })
 
   socket.on("leave game", data => {
     socket.leave(data.room);

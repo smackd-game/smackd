@@ -116,7 +116,80 @@ export default class GameParent extends Component {
         });
       }
     });
+    this.socket.on('voted', data => {
+        if(this.state.host){
+            const playersCopy = [...this.state.players];
+            const index = playersCopy.findIndex(
+            el => el.name === data.voteRecipient
+                );
+            const index1 = playersCopy.findIndex(
+                el => el.name === data.name
+            )
+            playersCopy[index1].didVote = true;
+            playersCopy[index].roundPoints += 5
+            playersCopy[index].totalPoints += 5
+            this.socket.emit('resending voted data', {
+                players: playersCopy,
+                room: this.state.code
+            })
+        }
+        
+        console.log('state setting fired')
+        
+        
 
+    })
+    this.socket.on('ready to go', data => {
+        if(this.state.host){
+            let playersCopy = [...this.state.players]
+            const index = playersCopy.findIndex(
+                el => el.name === data.name
+            )
+            playersCopy[index].readyForNextRound = true
+            this.socket.emit('resending ready for next round data', {
+                players: playersCopy,
+                room: this.state.code
+            })
+        }
+    })
+    this.socket.on('get updated ready data', data => {
+        this.setState({
+            players: data.players
+        })
+        let playersWhoAreReady = this.state.players.filter(el => el.readyForNextRound)
+        let nextRound = this.state.round ++;
+        if(data.players.length === playersWhoAreReady.length){
+            this.setState({
+                round: nextRound,
+                showRoundResults: false,
+                showQuestion: true
+            })
+        }
+        
+    })
+    
+    this.socket.on('getting voted data', data => {
+        console.log(data)
+        this.setState({
+            players: data.players
+        })
+        let playersWhoVoted = this.state.players.filter(el => el.didVote);
+        console.log(playersWhoVoted)
+        if (this.state.players.length === playersWhoVoted.length) {
+            this.setState({
+              showVote: false
+            });
+            if(this.state.round !== this.state.numberOfRounds){
+                this.setState({
+                    showRoundResults: true
+                })
+            } else {
+                this.setState({
+                    showFinalResults: true
+                })
+            }
+          }
+    })
     this.socket.on("receive question", data => {
       this.setState({
         gameQuestion: data.question
@@ -215,32 +288,26 @@ export default class GameParent extends Component {
   };
 
   vote = (name) => {
-    const playersCopy = [...this.state.players];
-    const index = playersCopy.findIndex(
-      el => el.name === name
-    );
-    playersCopy[index].roundPoints += 5
-
     this.setState({
       hasVoted: true
     });
-    playersCopy[index].didVote = true;
-    if (this.state.host) {
+    
       this.socket.emit("has voted", {
         name: this.state.name,
         room: this.state.code,
-        answer: this.state.answer,
-        roundPoints: null,
-        totalPoints: null,
-        didVote: this.state.hasVoted
+        voteRecipient: name
       });
-    }
+    
   };
 
   clickedReady = () => {
     this.setState({
       isReady: true
     });
+    this.socket.emit("ready for next round", {
+        name: this.state.name,
+        room: this.state.code
+    })
   };
 
   submit = () => {
@@ -314,6 +381,7 @@ export default class GameParent extends Component {
           players={playersNames}
           submitFN={this.submit}
           answeredQuestion={this.state.answeredQuestion}
+          playersArr={this.state.players}
         />
       );
     } else if (this.state.showVote) {
@@ -331,14 +399,17 @@ export default class GameParent extends Component {
           round={this.state.round}
           isReady={this.state.isReady}
           clickedReadyFN={this.clickedReady}
+          players={this.state.players}
         />
       );
     } else if (this.state.showFinalResults) {
       component = (
         <FinalResults
-          players={playersNames}
+          
           isReady={this.state.isReady}
           clickedReadyFN={this.clickedReady}
+          players={this.state.players}
+
         />
       );
     }

@@ -10,6 +10,7 @@ class FinalResults extends Component {
     }
 
     render() {
+        // let players = this.props.players
         return (
             <div className="final-results-container">
                 <h2>Final Results</h2>
