@@ -158,13 +158,16 @@ export default class GameParent extends Component {
         })
         let playersWhoAreReady = this.state.players.filter(el => el.readyForNextRound)
         let nextRound = this.state.round ++;
-        if(data.players.length === playersWhoAreReady.length){
+        console.log(playersWhoAreReady)
+        console.log(this.state.players)
+        if(this.state.players.length === playersWhoAreReady.length){
             this.setState({
                 round: nextRound,
-                showRoundResults: false,
-                showQuestion: true
+                // showRoundResults: false,
+                // showQuestion: true
             })
         }
+        console.log(this.state.round)
         
     })
     
@@ -302,7 +305,8 @@ export default class GameParent extends Component {
 
   clickedReady = () => {
     this.setState({
-      isReady: true
+      isReady: true,
+      answer: ''
     });
     this.socket.emit("ready for next round", {
         name: this.state.name,
