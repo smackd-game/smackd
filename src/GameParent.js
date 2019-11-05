@@ -72,14 +72,40 @@ export default class GameParent extends Component {
         });
       }
     });
-
-    this.socket.on("receive answers", data => {
-      console.log(data);
-      if (data.room === this.state.code) {
+    this.socket.on('re-receive answers', data => {
         this.setState({
-          players: data.players
+            players: data.players
+        })
+        let playersAnswers = this.state.players.filter(el => el.answer);
+       if (this.state.players.length === playersAnswers.length) {
+        this.setState({
+          showQuestion: false,
+          showVote: true
         });
       }
+    })
+
+    this.socket.on("receive the answer", data => {
+      console.log(data);
+      if (this.state.host) {
+        let answer = data.answer;
+        let newPlayersArr = [...this.state.players];
+        let index = newPlayersArr.findIndex(el => el.name === data.name);
+        if (index === -1) {
+          newPlayersArr.push(data);
+        } else {
+          newPlayersArr[index].answer = answer;
+        }
+        this.setState({
+          players: newPlayersArr
+        });
+        this.socket.emit("re-emit answers", {
+          players: newPlayersArr,
+          room: this.state.code
+        });
+      }
+
+      
     });
 
     this.socket.on("leave", data => {
@@ -163,10 +189,16 @@ export default class GameParent extends Component {
         if(this.state.players.length === playersWhoAreReady.length){
             this.setState({
                 round: nextRound,
-                // showRoundResults: false,
-                // showQuestion: true
+                showRoundResults: false,
+                showQuestion: true,
+                gameQuestion: '',
+                hasVoted: false,
+                answeredQuestion: false,
+                isReady: false,
+                roundPoints: 0
             })
         }
+        
         console.log(this.state.round)
         
     })
@@ -238,14 +270,8 @@ export default class GameParent extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.players !== this.state.players) {
-      let playersAnswers = this.state.players.filter(el => el.answer);
-      if (this.state.players.length === playersAnswers.length) {
-        this.setState({
-          showQuestion: false,
-          showVote: true
-        });
-      }
+    if (prevState.round !== this.state.round) {
+      this.getQuestion()
     }
   }
 

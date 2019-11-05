@@ -109,6 +109,10 @@ io.on("connection", socket => {
     });
   });
 
+  socket.on('re-emit answers', data => {
+    io.in(data.room).emit('re-receive answers', data)
+  })
+
   socket.on("emit to room socket", data => {
     socket.emit("room response", data);
   });
@@ -127,7 +131,7 @@ io.on("connection", socket => {
   });
 
   socket.on("send answer", data => {
-    io.to(data.room).emit("receive answer", data);
+    io.to(data.room).emit("receive the answer", data);
     console.log("sending answers");
   });
 
