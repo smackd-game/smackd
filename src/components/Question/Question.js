@@ -10,8 +10,8 @@ class Question extends Component {
     }
 
     render() {
-        const players = this.props.players.map(el => <p>{el}</p>);
-        let haventAnswered = this.props.playersArr.map(el => <p>{!el.answer}</p>)
+        // const players = this.props.players.map(el => <p>{el}</p>);
+        let haventAnswered = this.props.playersArr.map(el => <p>{el.name}</p>)
         return (
             <div className="question-container">
                
