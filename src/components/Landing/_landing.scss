@@ -149,16 +149,113 @@
 
 .host-top{
     width: 100vw;
-    height: 25vh;
-    background-color: red;
+    height: 15vh;
+    // background-color: red;
+    display: flex;
+}
+
+.back-arrow{
+    display: flex;
+    // background-color: white;
+    height: auto;
+    width: auto;
+    align-items: center;
+    margin-left: 1.5vw;
+}
+
+.left-triangle{
+    width: 0;
+	height: 0;
+	border-top: 5vh solid transparent;
+	border-right: 7vw solid blue;
+	border-bottom: 5vh dashed transparent;
+}
+
+.arrow-rectangle{
+    height: 5vh;
+    width: 5vw;
+    background-color: blue;
+    
 }
 
 .host-middle{
     width: 100vw;
-    height: 50vh;
-    background-color: blue;
+    height: 70vh;
+    // background-color: blue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+
+
+
+.host-banner{
+    height: 40vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.host-background{
+    height: 15vh;
+    width: 100vw;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    margin-top: 15vh;
+    display: flex;
+    align-items: center;
+}
+
+.text{
+    // height: 40vh;
+    // width: 40vw;
+    // background-color: blue;
+    font-size: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 6vh;
+}
+
+
+.rounds{
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    justify-content: space-evenly;
+    button{
+        height: 4vh;
+        border-radius: 5vh;
+        margin-top: 10vh;
+    }
+}
+
+.username{
+    height: 10vh;
+    width: 100vw;
+
 }
 
 .host-bottom{
-    @extend .host-top
+    @extend .host-top;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.forward-arrow{
+    @extend .back-arrow;
+    margin-right: 1.5vw;
+
+}
+
+.right-triangle{
+    width: 0;
+	height: 0;
+	border-top: 5vh solid transparent;
+	border-left: 7vw solid blue;
+	border-bottom: 5vh solid transparent;
 }
