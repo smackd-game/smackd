@@ -197,12 +197,45 @@ export default class GameParent extends Component {
                 isReady: false,
                 roundPoints: 0
             })
+            if(this.state.host){
+                this.socket.emit('emit one of clearing player object', {
+                    players: this.state.players,
+                    room: this.state.code
+    
+                   
+                })
+            }
         }
         
         console.log(this.state.round)
         
     })
-    
+    this.socket.on('emit two of clearing player object', data => {
+        console.log(data.players)
+        if(this.state.host){
+            let playersArr = [...data.players]
+        
+            for(let i=0; i < playersArr.length; i++){
+            playersArr[i].answer = '';
+            playersArr[i].readyForNextRound = false;
+            playersArr[i].roundPoints = 0;
+            playersArr[i].didVote = false;  
+        }
+        this.setState({
+            players: playersArr
+        })
+        this.socket.emit('emit three of clearing player object', {
+            players: playersArr,
+            room: this.state.code
+        })
+        }
+         
+    })
+    this.socket.on('emit four of clearing player object', data => {
+        this.setState({
+            players: data.players
+        })
+    })
     this.socket.on('getting voted data', data => {
         console.log(data)
         this.setState({
