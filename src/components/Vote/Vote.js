@@ -16,8 +16,9 @@ class Vote extends Component {
       let answers = this.props.players.map(el => {
           return <p onClick={() => this.props.voteFN(el.name)}>{el.answer}</p>
         });
-      let haventVoted = players.map(el => {
-        return <p>{!el.didVote}</p>
+      let arr = players.filter(el => !el.didVote)
+      let haventVoted = arr.map(el => {
+        return <p>{el.name}</p>
       })
         // console.log(answers)
 

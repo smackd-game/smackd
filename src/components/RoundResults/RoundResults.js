@@ -12,8 +12,9 @@ class RoundResults extends Component {
 
     render() {
         let players = this.props.players
-        let arentReady = players.map(el => {
-            return <p>{el.readyForNextRound === false}</p>
+        let arr = players.filter(el => !el.readyForNextRound)
+        let arentReady = arr.map(el => {
+            return <p>{el.name}</p>
         })
         let playersResults = players.map(el => {
             return <p>{el.name} Round Points: {el.roundPoints} Total Points: {el.totalPoints}</p>
