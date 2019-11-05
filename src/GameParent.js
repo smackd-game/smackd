@@ -438,7 +438,11 @@ export default class GameParent extends Component {
     // });
     let component;
     if (this.state.showFinalResults) {
-      component = <FinalResults />;
+        component = (
+            <FinalResults
+              players={this.state.players}
+            />
+          );
     } else if (this.state.showQuestion) {
       component = (
         <Question
@@ -469,17 +473,7 @@ export default class GameParent extends Component {
           players={this.state.players}
         />
       );
-    } else if (this.state.showFinalResults) {
-      component = (
-        <FinalResults
-          
-          isReady={this.state.isReady}
-          clickedReadyFN={this.clickedReady}
-          players={this.state.players}
-
-        />
-      );
-    }
+    } 
     return <div className="room">{component}</div>;
   }
 }
