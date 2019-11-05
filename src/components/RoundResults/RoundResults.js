@@ -11,6 +11,7 @@ class RoundResults extends Component {
     
 
     render() {
+        console.log(this.props.players)
         let players = this.props.players
         let arr = players.filter(el => !el.readyForNextRound)
         let arentReady = arr.map(el => {

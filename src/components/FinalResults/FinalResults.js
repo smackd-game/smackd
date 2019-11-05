@@ -5,31 +5,37 @@ class FinalResults extends Component {
     constructor() {
         super()
         this.state = {
-            placeholder: ''
+            
         }
     }
 
     render() {
-        // let players = this.props.players
-        // console.log(players)
-        // players.sort(function(a,b){
-        //     if(a.totalPoints > b.totalPoints){
-        //         return 1
-        //     } else {
-        //         return -1
-        //     }
-        // })
-        // let winner = players[0].name
+        console.log(this.props)
+        let players = this.props.players
+        console.log(players)
+        let sortedPlayers = players.sort(function(a,b){
+            if(a.totalPoints > b.totalPoints){
+                return -1
+            } else {
+                return 1
+            }
+        })
+        let winnerName = sortedPlayers[0].name
+        console.log(sortedPlayers)
+        let winnerPoints = sortedPlayers[0].totalPoints
+        console.log(winnerPoints)
+        console.log(winnerName)
 
-        // let losers = players.filter(el => el.name !== winner)
-        // losers.map(el => {
-        //     return <p>{el.name}</p>
-        // })
+        let losers = sortedPlayers.filter(el => el.name !== winnerName)
+        losers.map(el => {
+            return <p>{el.name}</p>
+        })
+        console.log(losers)
 
         return (
             <div className="final-results-container">
                 <h2>Final Results</h2>
-                {/* <h3>Winner: {winner} {players[0].totalPoints}</h3> */}
+                <h3>Winner: {winnerName} {winnerPoints}</h3>
                 <h4>Losers:</h4>
                 {/* <p>{losers}</p> */}
                 <ul>
