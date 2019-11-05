@@ -156,7 +156,8 @@ export default class GameParent extends Component {
             playersCopy[index].totalPoints += 5
             this.socket.emit('resending voted data', {
                 players: playersCopy,
-                room: this.state.code
+                room: this.state.code,
+                numberOfRounds: this.state.numberOfRounds
             })
         }
         
@@ -239,7 +240,8 @@ export default class GameParent extends Component {
     this.socket.on('getting voted data', data => {
         console.log(data)
         this.setState({
-            players: data.players
+            players: data.players,
+            numberOfRounds: data.numberOfRounds
         })
         let playersWhoVoted = this.state.players.filter(el => el.didVote);
         console.log(playersWhoVoted)
@@ -280,7 +282,8 @@ export default class GameParent extends Component {
     });
     if (this.state.players.length !== 0) {
       this.socket.emit("update answers", {
-        players: this.state.players
+        players: this.state.players,
+        room: this.state.code
       });
     } else {
       console.log("the players array was empty fool");
@@ -292,6 +295,7 @@ export default class GameParent extends Component {
       answer: "",
       roundPoints: null,
       totalPoints: null
+      
     });
 
     axios.get("/api/questions").then(res => {
