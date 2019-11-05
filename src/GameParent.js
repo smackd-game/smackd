@@ -5,6 +5,7 @@ import FinalResults from "./components/FinalResults/FinalResults";
 import React, {Component} from "react";
 import io from "socket.io-client";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default class GameParent extends Component {
   constructor(props) {
@@ -378,6 +379,9 @@ export default class GameParent extends Component {
   };
 
   submit = () => {
+    if (!this.state.answer) {
+      return Swal.fire('Really? Nothing?')
+    }
     this.setState({
       answeredQuestion: true
     });
