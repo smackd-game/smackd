@@ -38,6 +38,8 @@ app.post("/user", ctrl.addUser);
 
 app.get("/user", ctrl.getUser);
 
+app.delete('/user', ctrl.deleteUser)
+
 // ---------------------- //
 
 massive(CONNECTION_STRING).then(db => {
