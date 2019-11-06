@@ -46,7 +46,7 @@ class FinalResults extends Component {
         
         <button
           onClick={() => this.handleQuit()}
-          className="landing-button end"
+          className="button end"
         >
           Leave
         </button>

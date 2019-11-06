@@ -6,6 +6,8 @@
     flex-direction: column;
     padding: 8vh 5vh;
     align-items: center;
+    box-sizing: border-box;
+
     .question {
         border: white 5px solid;
         background: $tateAlternateGreen2;

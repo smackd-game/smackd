@@ -10,7 +10,7 @@ class RoundResults extends Component {
             return <p className='round-results-arent-ready' key={i}>{el.name}</p>
         })
         let playersResults = players.map((el, i) => {
-            return <p className='round-results-players' key={i}>{el.name} | {el.roundPoints === null ? 0 : el.roundPoints} | {el.totalPoints === null ? 0 : el.totalPoints}</p>
+            return <p className='round-results-players' key={i}>{el.name} | {el.roundPoints === null ? 0 : el.roundPoints} | {el.totalPoints === null ? 0 : el.totalPoints} </p>
         })
         return (
             <div className="round-results-container">
@@ -19,12 +19,12 @@ class RoundResults extends Component {
                 <>
                 <h2 className='round-title'>Round {this.props.round} Results</h2>
                 <div className="players-results">
-                <h4>Name | Round Points | Total Points</h4>
+                <h4>Round Points | Total Points</h4>
 
                 {playersResults}
 
                 </div>
-                <button className='landing-button' onClick={() => this.props.clickedReadyFN()} >Next Round</button>
+                <button className='button next-round' onClick={() => this.props.clickedReadyFN()} >Next Round</button>
                 </>
                 ) : (
                 <>
