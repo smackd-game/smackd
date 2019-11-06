@@ -30,7 +30,7 @@ class FinalResults extends Component {
     let winnerPoints = sortedPlayers[0].totalPoints;
 
     let losers = sortedPlayers.filter(el => el.name !== winnerName);
-    losers.map(el => {
+    let theLosers = losers.map(el => {
       return <p>{el.name}</p>;
     });
 
@@ -41,9 +41,9 @@ class FinalResults extends Component {
           Winner: {winnerName} {winnerPoints}
         </h3>
         <h4>Losers:</h4>
-        {/* <p>{losers}</p> */}
+        
         <ul>
-          <li>Loser 1 (We will map out the losers here)</li>
+          <li>{theLosers}</li>
         </ul>
         <button
           onClick={() => this.handleQuit()}
