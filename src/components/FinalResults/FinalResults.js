@@ -34,13 +34,16 @@ class FinalResults extends Component {
       <div className="final-results-container">
         <h2>Final Results</h2>
         <h3>
-          Winner: {winnerName} {winnerPoints}
+          The winner is {winnerName} with {winnerPoints} points
         </h3>
-        <h4>Losers:</h4>
+        <h4>The Losers</h4>
+        <div className="loser">
+            {theLosers}
+        </div>
+        <div className="thanks">
+            <p>Thanks for playing!</p>
+        </div>
         
-        <ul>
-          <li>{theLosers}</li>
-        </ul>
         <button
           onClick={() => this.handleQuit()}
           className="landing-button end"
