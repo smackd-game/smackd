@@ -58,8 +58,8 @@ const io = socket(server);
 io.on("connection", socket => {
   console.log("a user has connected");
 
-  socket.on("disconnect", () => {
-    console.log("a user has disconnected", socket.id);
+  socket.on("disconnect", (reason) => {
+    console.log(`${socket.id} has disconnected because ${reason}`);
   });
 
   socket.on("join room", data => {
