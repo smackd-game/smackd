@@ -120,13 +120,13 @@ io.on("connection", socket => {
     io.in(data.room).emit('re-receive answers', data)
   })
 
-  socket.on("emit to room socket", data => {
-    socket.emit("room response", data);
-  });
+  // socket.on("emit to room socket", data => {
+  //   socket.emit("room response", data);
+  // });
 
-  socket.on("blast to room socket", data => {
-    io.in(data.room).emit("room response", data);
-  });
+  // socket.on("blast to room socket", data => {
+  //   io.in(data.room).emit("room response", data);
+  // });
 
   socket.on("update list", data => {
     io.in(data.room).emit("update list", data);
