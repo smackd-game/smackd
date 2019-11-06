@@ -26,7 +26,7 @@ it('show who hasnt answered yet', () => {
 })
 //Tate
 it('clear player object keys', () => {
-    expect(mapped(playersArr[0].didVote)).toBe(false)
+    expect(mappedAnswer(playersArr[0].didVote)).toBe(false)
 })
 
 
