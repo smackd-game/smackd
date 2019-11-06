@@ -37,7 +37,7 @@ class FinalResults extends Component {
                 <h2>Final Results</h2>
                 <h3>Winner: {winnerName} {winnerPoints}</h3>
                 <h4>Losers:</h4>
-                {/* <p>{losers}</p> */}
+                <p>{losers}</p>
                 <ul>
                     <li>Loser 1 (We will map out the losers here)</li>
                 </ul>
