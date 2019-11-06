@@ -4,9 +4,45 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    textarea{
+    padding: 25px;
+    align-items: center;
+    .question {
+        border: white 5px solid;
+        background: $accent;
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.699);
+    }
+    .button {
+        border: none;
+        background: $accent;
+        height: 40px;
+        border-radius: 10px;
+        color: white;
+        font-size: 1.5rem;
+        box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.699);
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.603);
+        &:hover {
+            cursor: pointer;
+            opacity: 95%;
+            box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.493);
+        }
+    }
+    .submit-answer {
+        width: 200px;
+        margin-top: 4vh;
+    }
+    textarea {
+        &:focus {
+            outline: none
+        }
         width: 80vw;
-        margin: 1vh auto;
-        height: 20vh;
+        font-size: 1rem;
+        margin: 8vh auto;
+        height: 25vh;
+        background: $brianMainBackground;
+        border: none;
+        border-radius: 10px;
     }
 }
