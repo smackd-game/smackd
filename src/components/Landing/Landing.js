@@ -130,15 +130,15 @@ class Landing extends Component {
     } else if (this.state.showHost === true) {
       return (
         <div className="landing-container">
-          <div className="host-top">
+          <div onClick={() => this.backFN()} className="host-top">
             <div className="back-arrow">
               <div
                 className="left-triangle"
-                onClick={() => this.backFN()}
+                
               ></div>
               <div
                 className="arrow-rectangle"
-                onClick={() => this.backFN()}
+               
               ></div>
             </div>
           </div>
@@ -179,11 +179,11 @@ class Landing extends Component {
               type="text"
             />
           </div>
-          <div className="host-bottom">
+          <div onClick={() => this.hostGame()} className="host-bottom">
             <div className="forward-arrow">
               <div
                 className="arrow-rectangle"
-                onClick={() => this.hostGame()}
+                
               ></div>
               <div className="right-triangle"></div>
             </div>
@@ -222,9 +222,9 @@ class Landing extends Component {
             type="number"
           />
         </div>
-        <div className= "host-bottom">
+        <div onClick={() => this.joinGame()} className="host-bottom">
           <div className = "forward-arrow">
-            <div className = "arrow-rectangle" onClick={() => this.joinGame()}></div>
+            <div className = "arrow-rectangle" ></div>
             <div className = "right-triangle"></div>
           </div>
           
