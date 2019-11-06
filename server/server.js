@@ -58,8 +58,8 @@ const io = socket(server);
 io.on("connection", socket => {
   console.log("a user has connected");
 
-  socket.on("disconnect", () => {
-    console.log("a user has disconnected", socket.id);
+  socket.on("disconnect", (reason) => {
+    console.log(`${socket.id} has disconnected because ${reason}`);
   });
 
   socket.on("join room", data => {
@@ -120,13 +120,13 @@ io.on("connection", socket => {
     io.in(data.room).emit('re-receive answers', data)
   })
 
-  socket.on("emit to room socket", data => {
-    socket.emit("room response", data);
-  });
+  // socket.on("emit to room socket", data => {
+  //   socket.emit("room response", data);
+  // });
 
-  socket.on("blast to room socket", data => {
-    io.in(data.room).emit("room response", data);
-  });
+  // socket.on("blast to room socket", data => {
+  //   io.in(data.room).emit("room response", data);
+  // });
 
   socket.on("update list", data => {
     io.in(data.room).emit("update list", data);

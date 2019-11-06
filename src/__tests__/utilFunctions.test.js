@@ -9,24 +9,24 @@ import { isTSAnyKeyword, exportAllDeclaration } from '@babel/types'
 
 //Tate
 it('sort the players by points', () => {
-    expect(sortedPlayers[0].name).toBe('Brian')
+    expect(sortingFunction(sortedPlayers[0].name)).toBe('Brian')
 })
 //Tate
 it('sort the players and exclude winner', () => {
-    expect(theLosers[0].name).toBe('Tate')
-    expect(theLosers[1].name).toBe('Mark')
+    expect(losers(theLosers[0].name)).toBe('Tate')
+    expect(losers(theLosers[1].name)).toBe('Mark')
 })
 //Tate
 it('show who hasnt answered', () => {
-    expect(arr[0].name).toBe('Mark')
+    expect(haventAnswered(arr[0].name)).toBe('Mark')
 })
 //Tate
 it('show who hasnt answered yet', () => {
-    expect(arr[0].name).toBe('Mark')
+    expect(forLoop(arr[0].name)).toBe('Mark')
 })
 //Tate
 it('clear player object keys', () => {
-    expect(playersArr[0].didVote).toBe(false)
+    expect(mappedAnswer(playersArr[0].didVote)).toBe(false)
 })
 
 

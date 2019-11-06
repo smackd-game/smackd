@@ -9,4 +9,10 @@
 .App {
     text-align: center;
     background: $brand;
+    
+}
+* {
+    font-family: $headerFont;
+    letter-spacing: .5px;
+    font-weight: 250;
 }
