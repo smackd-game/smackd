@@ -188,15 +188,7 @@ class Landing extends Component {
               <div className="right-triangle"></div>
             </div>
           </div>
-          <div className="host-bottom">
-            <div className="forward-arrow">
-              <div
-                className="arrow-rectangle"
-                onClick={() => this.joinGame()}
-              ></div>
-              <div className="right-triangle"></div>
-            </div>
-          </div>
+
         </div>
       );
     } else if (this.state.showJoin === true) {
