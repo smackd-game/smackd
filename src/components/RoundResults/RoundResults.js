@@ -2,23 +2,15 @@ import React, {Component} from 'react'
 import './_roundResults.scss'
 
 class RoundResults extends Component {
-    constructor() {
-        super()
-        this.state = {
-           
-        }
-    }
-    
 
     render() {
-        console.log(this.props.players)
         let players = this.props.players
         let arr = players.filter(el => !el.readyForNextRound)
-        let arentReady = arr.map(el => {
-            return <p>{el.name}</p>
+        let arentReady = arr.map((el, i) => {
+            return <p key={i}>{el.name}</p>
         })
-        let playersResults = players.map(el => {
-            return <p>{el.name} Round Points: {el.roundPoints === null ? 0 : el.roundPoints} Total Points: {el.totalPoints}</p>
+        let playersResults = players.map((el, i) => {
+            return <p key={i}>{el.name} Round Points: {el.roundPoints} Total Points: {el.totalPoints}</p>
         })
         return (
             <div className="round-results-container">

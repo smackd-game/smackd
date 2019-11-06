@@ -19,7 +19,6 @@ class Vote extends Component {
       let haventVoted = arr.map(el => {
         return <p className='actual-answer' >{el.name}</p>
       })
-      
 
     return (
       <div className="vote-container">
