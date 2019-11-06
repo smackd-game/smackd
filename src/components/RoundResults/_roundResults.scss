@@ -1,8 +1,26 @@
 @import '../../variables';
 .round-results-container {
     background: $brand;
+    box-sizing: border-box;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
     h2{
         margin: 0 auto;
     }
+    padding-bottom: 25vh;
+    padding-top: 10vh;
+}
+.players-results{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    p{
+        margin: 0 auto;
+    }
+}
+.round-title{
+    font-size: 7vh;
 }
