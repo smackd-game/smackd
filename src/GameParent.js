@@ -5,6 +5,7 @@ import FinalResults from "./components/FinalResults/FinalResults";
 import React, {Component} from "react";
 import io from "socket.io-client";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default class GameParent extends Component {
   constructor(props) {
@@ -39,7 +40,6 @@ export default class GameParent extends Component {
       }
     });
 
-
     this.socket.on("game data", data => {
       if (data.room === this.state.code && this.state.host) {
         this.setState({
@@ -72,12 +72,35 @@ export default class GameParent extends Component {
         });
       }
     });
-
-    this.socket.on("receive answers", data => {
-      console.log(data);
-      if (data.room === this.state.code) {
+    this.socket.on("re-receive answers", data => {
+      this.setState({
+        players: data.players
+      });
+      let playersAnswers = this.state.players.filter(el => el.answer);
+      if (this.state.players.length === playersAnswers.length) {
         this.setState({
-          players: data.players
+          showQuestion: false,
+          showVote: true
+        });
+      }
+    });
+
+    this.socket.on("receive the answer", data => {
+      if (this.state.host) {
+        let answer = data.answer;
+        let newPlayersArr = [...this.state.players];
+        let index = newPlayersArr.findIndex(el => el.name === data.name);
+        if (index === -1) {
+          newPlayersArr.push(data);
+        } else {
+          newPlayersArr[index].answer = answer;
+        }
+        this.setState({
+          players: newPlayersArr
+        });
+        this.socket.emit("re-emit answers", {
+          players: newPlayersArr,
+          room: this.state.code
         });
       }
     });
@@ -116,7 +139,106 @@ export default class GameParent extends Component {
         });
       }
     });
+    this.socket.on("voted", data => {
+      if (this.state.host) {
+        const playersCopy = [...this.state.players];
+        const index = playersCopy.findIndex(
+          el => el.name === data.voteRecipient
+        );
+        const index1 = playersCopy.findIndex(el => el.name === data.name);
+        playersCopy[index1].didVote = true;
+        playersCopy[index].roundPoints += 5;
+        playersCopy[index].totalPoints += 5;
+        this.socket.emit("resending voted data", {
+          players: playersCopy,
+          room: this.state.code,
+          numberOfRounds: this.state.numberOfRounds
+        });
+      }
+    });
+    this.socket.on("ready to go", data => {
+      if (this.state.host) {
+        let playersCopy = [...this.state.players];
+        const index = playersCopy.findIndex(el => el.name === data.name);
+        playersCopy[index].readyForNextRound = true;
+        this.socket.emit("resending ready for next round data", {
+          players: playersCopy,
+          room: this.state.code
+        });
+      }
+    });
+    this.socket.on("get updated ready data", data => {
+      this.setState({
+        players: data.players
+      });
+      let playersWhoAreReady = this.state.players.filter(
+        el => el.readyForNextRound
+      );
+      let nextRound = this.state.round++;
+      if (this.state.players.length === playersWhoAreReady.length) {
+        this.setState({
+          round: nextRound,
+          showRoundResults: false,
+          showQuestion: true,
+          gameQuestion: "",
+          hasVoted: false,
+          answeredQuestion: false,
+          isReady: false,
+          roundPoints: 0
+        });
+        if (this.state.host) {
+          this.socket.emit("emit one of clearing player object", {
+            players: this.state.players,
+            room: this.state.code
+          });
+        }
+      }
+    });
+    this.socket.on("emit two of clearing player object", data => {
+      if (this.state.host) {
+        let playersArr = [...data.players];
 
+        for (let i = 0; i < playersArr.length; i++) {
+          playersArr[i].answer = "";
+          playersArr[i].readyForNextRound = false;
+          playersArr[i].roundPoints = 0;
+          playersArr[i].didVote = false;
+        }
+        this.setState({
+          players: playersArr
+        });
+        this.socket.emit("emit three of clearing player object", {
+          players: playersArr,
+          room: this.state.code
+        });
+      }
+    });
+    this.socket.on("emit four of clearing player object", data => {
+      this.setState({
+        players: data.players
+      });
+    });
+    this.socket.on("getting voted data", data => {
+      this.setState({
+        players: data.players,
+        numberOfRounds: data.numberOfRounds
+      });
+      let playersWhoVoted = this.state.players.filter(el => el.didVote);
+      if (this.state.players.length === playersWhoVoted.length) {
+        this.setState({
+          showVote: false
+        });
+        if (this.state.round !== this.state.numberOfRounds) {
+          this.setState({
+            showRoundResults: true
+          });
+        } else {
+          this.setState({
+            showFinalResults: true
+          });
+        }
+      }
+    });
     this.socket.on("receive question", data => {
       this.setState({
         gameQuestion: data.question
@@ -139,10 +261,9 @@ export default class GameParent extends Component {
     });
     if (this.state.players.length !== 0) {
       this.socket.emit("update answers", {
-        players: this.state.players
+        players: this.state.players,
+        room: this.state.code
       });
-    } else {
-      console.log("the players array was empty fool");
     }
 
     this.socket.emit("join room", {
@@ -162,14 +283,8 @@ export default class GameParent extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.players !== this.state.players) {
-      let playersAnswers = this.state.players.filter(el => el.answer);
-      if (this.state.players.length === playersAnswers.length) {
-        this.setState({
-          showQuestion: false,
-          showVote: true
-        });
-      }
+    if (prevState.round !== this.state.round) {
+      this.getQuestion();
     }
   }
 
@@ -214,41 +329,39 @@ export default class GameParent extends Component {
     });
   };
 
-  vote = (name) => {
-    const playersCopy = [...this.state.players];
-    const index = playersCopy.findIndex(
-      el => el.name === name
-    );
-    playersCopy[index].roundPoints += 5
-
+  vote = name => {
+    if (name === this.state.name) {
+      return Swal.fire("Nice try. That's yours remember?");
+    }
     this.setState({
       hasVoted: true
     });
-    playersCopy[index].didVote = true;
-    if (this.state.host) {
-      this.socket.emit("has voted", {
-        name: this.state.name,
-        room: this.state.code,
-        answer: this.state.answer,
-        roundPoints: null,
-        totalPoints: null,
-        didVote: this.state.hasVoted
-      });
-    }
+
+    this.socket.emit("has voted", {
+      name: this.state.name,
+      room: this.state.code,
+      voteRecipient: name
+    });
   };
 
   clickedReady = () => {
     this.setState({
-      isReady: true
+      isReady: true,
+      answer: ""
+    });
+    this.socket.emit("ready for next round", {
+      name: this.state.name,
+      room: this.state.code
     });
   };
 
   submit = () => {
+    if (!this.state.answer) {
+      return Swal.fire("Really? Nothing?");
+    }
     this.setState({
       answeredQuestion: true
     });
-
-    console.log("sent answer", this.state.answer)
 
     this.socket.emit("send answer", {
       name: this.state.name,
@@ -304,7 +417,9 @@ export default class GameParent extends Component {
     // });
     let component;
     if (this.state.showFinalResults) {
-      component = <FinalResults />;
+      component = (
+        <FinalResults players={this.state.players} code={this.state.code} />
+      );
     } else if (this.state.showQuestion) {
       component = (
         <Question
@@ -314,6 +429,7 @@ export default class GameParent extends Component {
           players={playersNames}
           submitFN={this.submit}
           answeredQuestion={this.state.answeredQuestion}
+          playersArr={this.state.players}
         />
       );
     } else if (this.state.showVote) {
@@ -331,14 +447,7 @@ export default class GameParent extends Component {
           round={this.state.round}
           isReady={this.state.isReady}
           clickedReadyFN={this.clickedReady}
-        />
-      );
-    } else if (this.state.showFinalResults) {
-      component = (
-        <FinalResults
-          players={playersNames}
-          isReady={this.state.isReady}
-          clickedReadyFN={this.clickedReady}
+          players={this.state.players}
         />
       );
     }

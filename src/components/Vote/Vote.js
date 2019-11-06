@@ -2,21 +2,24 @@ import React, {Component} from "react";
 import "./_vote.scss";
 
 class Vote extends Component {
-  constructor() {
-    super();
-    this.state = {
-      // hasVoted: ''
-    };
-  }
-
   render() {
-      // const players = this.props.players.map(el => <p>{el}</p>);
-      // const answers = this.props.answers.map(el => <p>{el}</p>);
-      const answers = this.props.players.map(el => {
-          // return {answer: el.answer, name: el.name};
-          return <p onClick={() => this.props.voteFN(el.name)}>{el.answer}</p>
-        });
-        console.log(answers)
+    let players = this.props.players;
+
+    let answers = this.props.players.map((el, i) => {
+      return (
+        <p key={i} onClick={() => this.props.voteFN(el.name)}>
+          {el.answer}
+        </p>
+      );
+    });
+    let arr = players.filter(el => !el.didVote);
+    let haventVoted = arr.map((el, i) => {
+      return (
+        <p key={i} className="actual-answer">
+          {el.name}
+        </p>
+      );
+    });
 
     return (
       <div className="vote-container">
@@ -26,10 +29,7 @@ class Vote extends Component {
               <h3>{this.props.question}</h3>
             </header>
 
-            <div className="answer">
-              <p>An answer will go here</p>
-              {answers}
-            </div>
+            <div className="answer">{answers}</div>
           </>
         ) : (
           <>
@@ -38,10 +38,8 @@ class Vote extends Component {
             </header>
 
             <p>Still waiting on:</p>
+            {haventVoted}
             <p>Give these players a dirty look until they vote</p>
-            <p>
-              Also we can put like a spinning wheel animation or something here
-            </p>
           </>
         )}
       </div>

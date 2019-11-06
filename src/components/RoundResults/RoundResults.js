@@ -2,29 +2,31 @@ import React, {Component} from 'react'
 import './_roundResults.scss'
 
 class RoundResults extends Component {
-    constructor() {
-        super()
-        this.state = {
-           
-        }
-    }
-    
 
     render() {
+        let players = this.props.players
+        let arr = players.filter(el => !el.readyForNextRound)
+        let arentReady = arr.map((el, i) => {
+            return <p key={i}>{el.name}</p>
+        })
+        let playersResults = players.map((el, i) => {
+            return <p key={i}>{el.name} Round Points: {el.roundPoints} Total Points: {el.totalPoints}</p>
+        })
         return (
             <div className="round-results-container">
 
             {!this.props.isReady ? (
                 <>
-                    <h2>Round {this.props.round} Results</h2>
-                <p>We will map the list of players with their round points and total points</p>
+                <h2>Round {this.props.round} Results</h2>
+                {playersResults}
                 <button className='landing-button' onClick={() => this.props.clickedReadyFN()} >Ready for next round?</button>
                 </>
                 ) : (
                 <>
-                    <h2>Round {this.props.round} Results</h2>
-                <p>We will map the list of players with their round points and total points</p>
-                <p>Waiting on other players to tap "Ready"</p>
+                <h2>Round {this.props.round} Results</h2>
+                <p>Still waiting on</p>
+                {arentReady}
+                <p>We're still waiting on a few players to click the Ready button. Once they've clicked it, we'll move to the next round, tell them to hurry and do it.</p>
                 </>
                 )}
                 

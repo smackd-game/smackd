@@ -173,7 +173,7 @@ class Landing extends Component {
               <button onClick={() => this.setRound(5)} className="landing-button five">Five Rounds</button>
               <button onClick={() => this.setRound(7)} className="landing-button seven">Seven Rounds</button>
             </div>  
-            {/* <div className = "username"> */}
+            
             <input
             name="name"
             value={this.state.name}
@@ -181,7 +181,6 @@ class Landing extends Component {
             placeholder="Enter Username"
             type="text"
           />
-            {/* </div>   */}
           </div>
           <div className= "host-bottom">
             <div className = "forward-arrow">
@@ -191,103 +190,16 @@ class Landing extends Component {
             </div>
             
           </div>
-          {/* <input
-            name="name"
-            value={this.state.name}
-            onChange={e => this.handleChange(e, "name")}
-            placeholder="Enter Name"
-            type="text"
-          /> */}
-          {/* <p>How many rounds do you want to play cutie pie?</p> */}
-          {/* <div className="roundsbuttons"> */}
-            {/* <button onClick={() => this.setRound(3)} className="landing-button three">Three Rounds</button>
-            <button onClick={() => this.setRound(5)} className="landing-button five">Five Rounds</button>
-            <button onClick={() => this.setRound(7)} className="landing-button seven">Seven Rounds</button> */}
-
-          {/* </div>
-          <button className='landing-button' onClick={() => this.backFN()}>Go Back</button>
-
-          <button className='landing-button' onClick={() => this.hostGame()} >Host Game</button> */}
-        </div>
-      );
-    } else if (this.state.showJoin === true) {
-      return (
-        <div className="landing-container">
-        <div className= "host-top">
-          <div className = "back-arrow">
-            <div className = "left-triangle" onClick={() => this.backFN()}></div>
-            <div className = "arrow-rectangle" onClick={() => this.backFN()}></div>
+          <div className= "host-bottom">
+            <div className = "forward-arrow">
+              <div className = "arrow-rectangle" onClick={() => this.joinGame()}></div>
+              <div className = "right-triangle"></div>
+  
+            </div>
+            
           </div>
         </div>
-        <div className= "host-middle">
-            <div className = "host-banner">
-            <div className = "host-background">
-              <div className = "text">
-                <h2>JOIN</h2>
-              </div>
-            </div>
-            </div>
-          <input
-          name="name"
-          value={this.state.name}
-          onChange={e => this.handleChange(e, "name")}
-          placeholder="Enter Username"
-          type="text"
-        />
-
-          <input
-            name="code"
-            onChange={e => this.handleChange(e, "code")}
-            placeholder="Enter Code"
-            type="number"
-          />
-          {/* </div>   */}
         </div>
-        <div className= "host-bottom">
-          <div className = "forward-arrow">
-            <div className = "arrow-rectangle" onClick={() => this.joinGame()}></div>
-            <div className = "right-triangle"></div>
-
-          </div>
-          
-        </div>
-        {/* <input
-          name="name"
-          value={this.state.name}
-          onChange={e => this.handleChange(e, "name")}
-          placeholder="Enter Name"
-          type="text"
-        /> */}
-        {/* <p>How many rounds do you want to play cutie pie?</p> */}
-        {/* <div className="roundsbuttons"> */}
-          {/* <button onClick={() => this.setRound(3)} className="landing-button three">Three Rounds</button>
-          <button onClick={() => this.setRound(5)} className="landing-button five">Five Rounds</button>
-          <button onClick={() => this.setRound(7)} className="landing-button seven">Seven Rounds</button> */}
-
-        {/* </div>
-        <button className='landing-button' onClick={() => this.backFN()}>Go Back</button>
-
-        <button className='landing-button' onClick={() => this.hostGame()} >Host Game</button> */}
-      </div>
-        // <div className="landing-container">
-        //   <h3>Join Game</h3>
-        //   <input
-        //     name="name"
-        //     value={this.state.name}
-        //     onChange={e => this.handleChange(e, "name")}
-        //     placeholder="Enter Name"
-        //     type="text"
-        //   />
-          // <input
-          //   name="code"
-          //   onChange={e => this.handleChange(e, "code")}
-          //   placeholder="Enter Code"
-          //   type="number"
-          // />
-        //   <button className='landing-button' onClick={() => this.backFN()}>Go Back</button>
-
-          // <button className='landing-button' onClick={() => this.joinGame()}>Join Game</button>
-        // </div>
       );
     }
   }

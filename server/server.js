@@ -38,6 +38,8 @@ app.post("/user", ctrl.addUser);
 
 app.get("/user", ctrl.getUser);
 
+app.delete('/user', ctrl.deleteUser)
+
 // ---------------------- //
 
 massive(CONNECTION_STRING).then(db => {
@@ -74,18 +76,31 @@ io.on("connection", socket => {
 
   socket.on("start", data => {
     console.log(data.room);
-    socket.to(data.room).emit("start", "get ready to start");
+    io.in(data.room).emit("start", "get ready to start");
   });
 
-  socket.on("voted", data => {
-    console.log(data.room);
-    socket.to(data.room).emit("voted", "everyone has voted");
+  socket.on("has voted", data => {
+    console.log(data);
+    io.in(data.room).emit("voted", data);
   });
+  socket.on('ready for next round', data => {
+    console.log(`${data.name} is ready for the next round`)
+    io.in(data.room).emit('ready to go', data)
+  })
 
   socket.on("results", data => {
     console.log(data.room);
-    socket.to(data.room).emit("results", "results are in");
+    io.in(data.room).emit("results", "results are in");
   });
+
+  socket.on('resending voted data', data => {
+    console.log(data)
+    io.in(data.room).emit('getting voted data', data)
+  })
+  socket.on('resending ready for next round data', data => {
+    console.log('resending updated ready for next round data')
+    io.in(data.room).emit('get updated ready data', data)
+  })
 
   socket.on("leave game", data => {
     socket.leave(data.room);
@@ -95,30 +110,39 @@ io.on("connection", socket => {
       room: data.room
     });
   });
+  socket.on('emit one of clearing player object', data => {
+    io.in(data.room).emit('emit two of clearing player object', data)
+  })
+  socket.on('emit three of clearing player object', data => {
+    io.in(data.room).emit('emit four of clearing player object', data)
+  })
+  socket.on('re-emit answers', data => {
+    io.in(data.room).emit('re-receive answers', data)
+  })
 
   socket.on("emit to room socket", data => {
     socket.emit("room response", data);
   });
 
   socket.on("blast to room socket", data => {
-    io.to(data.room).emit("room response", data);
+    io.in(data.room).emit("room response", data);
   });
 
   socket.on("update list", data => {
-    io.to(data.room).emit("update list", data);
+    io.in(data.room).emit("update list", data);
   });
 
   socket.on("update answers", data => {
-    io.to(data.room).emit("receive answers", data);
+    io.in(data.room).emit("receive answers", data);
     console.log("emitting updated answers");
   });
 
   socket.on("send answer", data => {
-    io.to(data.room).emit("receive answer", data);
+    io.in(data.room).emit("receive the answer", data);
     console.log("sending answers");
   });
 
   socket.on("send question", data => {
-    io.to(data.room).emit("receive question", data);
+    io.in(data.room).emit("receive question", data);
   });
 });
