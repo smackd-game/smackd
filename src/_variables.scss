@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap');
+@import url('https://fonts.googleapis.com/css?family=McLaren&display=swap');
+
+$headerFont:'Bowlby One SC', cursive;
+$textFont: 'McLaren', cursive;
 $brand: rgb(236, 135, 135);
 $secondary: rgb(136, 245, 136);
 $accent: rgb(132, 132, 223);
@@ -12,9 +17,11 @@ $tateAlternatePurple2: #06AD20;
 $tateAlternateGreen1: #94BE9A;
 $tateAlternateGreen2: #7E1173;
 $tateAlternateGreen3: #280438;
+
 @mixin flexCenter($direction) {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: $direction;
 }
+
