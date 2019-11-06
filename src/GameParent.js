@@ -355,6 +355,9 @@ export default class GameParent extends Component {
   };
 
   vote = (name) => {
+    if (name === this.state.name) {
+      return Swal.fire("Nice try. That's yours remember?")
+    }
     this.setState({
       hasVoted: true
     });
@@ -445,6 +448,7 @@ export default class GameParent extends Component {
         component = (
             <FinalResults
               players={this.state.players}
+              code={this.state.code}
             />
           );
     } else if (this.state.showQuestion) {
