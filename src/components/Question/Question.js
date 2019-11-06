@@ -38,7 +38,6 @@ class Question extends Component {
                     <p>Still waiting on:</p>
                     {arr}
                     <p>Give them a dirty look until they answer the question</p>
-                    <p>Also we can put like a spinning wheel animation or something here</p>
                 </>
                 )}
             
