@@ -27,17 +27,17 @@ class FinalResults extends Component {
 
     let losers = sortedPlayers.filter(el => el.name !== winnerName);
     let theLosers = losers.map((el, i) => {
-      return <p key={i}>{el.name}</p>;
+      return <p className='thelosername' key={i}>{el.name}</p>;
     });
 
     return (
       <div className="final-results-container">
-        <h2>Final Results</h2>
+        <h2 className='round-title' >Final Results</h2>
         <h3>
           The winner is {winnerName} with {winnerPoints} points
         </h3>
         <h4>The Losers</h4>
-        <div className="loser">
+        <div className="players-results">
             {theLosers}
         </div>
         <div className="thanks">

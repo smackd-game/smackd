@@ -1,18 +1,14 @@
 @import '../../variables';
 .final-results-container {
     background: $accent;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     h2{
         margin: 0 auto;
     }
+    padding-bottom: 20vh;
+    padding-top: 10vh;
 }
-.landing-button{
-    overflow: hidden;
-}
-.loser{
-    border: 2px black solid;
-    background: $tateBuzzLightYearLightPurple;
-    width: 50vw;
-    height: 2vh;
-    font-size: 1vh;
-}
+
