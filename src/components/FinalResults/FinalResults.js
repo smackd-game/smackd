@@ -4,10 +4,6 @@ import axios from "axios";
 import {withRouter} from 'react-router-dom'
 
 class FinalResults extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
 
   handleQuit() {
     axios.delete(`/api/games/${this.props.code}`).then(() => {
@@ -30,8 +26,8 @@ class FinalResults extends Component {
     let winnerPoints = sortedPlayers[0].totalPoints;
 
     let losers = sortedPlayers.filter(el => el.name !== winnerName);
-    let theLosers = losers.map(el => {
-      return <p>{el.name}</p>;
+    let theLosers = losers.map((el, i) => {
+      return <p key={i}>{el.name}</p>;
     });
 
     return (

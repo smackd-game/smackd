@@ -3,7 +3,7 @@ import "./_host.scss"
 
 class Host extends Component {
   render() {
-    const players = this.props.players.map(el => <p>{el}</p>);
+    const players = this.props.players.map((el, i) => <p key={i}>{el}</p>);
     return (
       <div className="host-container">
         <h3 className="welcome">Welcome, {this.props.name}!</h3>
@@ -14,7 +14,7 @@ class Host extends Component {
         </header>
         <div className="whosreadytoplay">
           <h3>Here's who's ready to play:</h3>
-          <p>{players}</p>
+          {players}
         </div>
         
         <button onClick={() => this.props.handleStartFn()} className='landing-button'>
