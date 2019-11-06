@@ -18,7 +18,7 @@ class RoundResults extends Component {
             return <p>{el.name}</p>
         })
         let playersResults = players.map(el => {
-            return <p>{el.name} Round Points: {el.roundPoints} Total Points: {el.totalPoints}</p>
+            return <p>{el.name} Round Points: {el.roundPoints === null ? 0 : el.roundPoints} Total Points: {el.totalPoints}</p>
         })
         return (
             <div className="round-results-container">
