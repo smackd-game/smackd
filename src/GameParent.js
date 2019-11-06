@@ -264,8 +264,6 @@ export default class GameParent extends Component {
         players: this.state.players,
         room: this.state.code
       });
-    } else {
-      console.log("the players array was empty fool");
     }
 
     this.socket.emit("join room", {
