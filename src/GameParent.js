@@ -391,7 +391,7 @@ export default class GameParent extends Component {
   };
 
   moveToNextRound = () => {
-    let currentRound = this.state.round;
+    // let currentRound = this.state.round;
     // let nextRound = currentRound++;
     this.setState({
       showRoundResults: false,
