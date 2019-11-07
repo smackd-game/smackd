@@ -33,14 +33,24 @@ class Join extends Component {
     const players = this.props.players.map((el, i) => <p key={i}>{el}</p>);
     return (
       <div className="host-container">
-        <h3 className="welcome">Welcome, {this.props.name}!</h3>
-        
-        <div className="whosreadytoplay">
-          <h3>Here's who's ready to play:</h3>
-          {players}
+        <div className = "top-host2">
+          <h3 className="welcome">Welcome, {this.props.name}!</h3>
         </div>
-        <p className='waitingonhost' >Waiting for other players to join and for the Host to start the game</p>
-        <button className='landing-button' onClick={() => this.props.leaveGameFn()} >Leave Game</button>
+        
+        <div className="middle-host2">
+          <div className = "list">
+            <h3>Players!</h3>
+            {players}
+          </div>
+        </div>
+        <div className = "bottom-host">
+          <div>
+            <p>Waiting for Host</p>
+          </div>
+          <div>
+            <button className='landing-button' onClick={() => this.props.leaveGameFn()} >Leave Game</button>
+          </div>
+        </div>
       </div>
     );
   }
