@@ -5,22 +5,22 @@
     background: $brand;
     height: 100vh;
     width: 100%;
-    h3{
+    h3 {
         margin: 1vh auto;
     }
 }
 
-.top-host{
+.top-host {
     height: 35vh;
     width: 100vw;
-    background-color: $secondary;
+    background-color: $accent;
     display: flex;
-    justify-content: evenly;
+    // justify-content: space-evenly;
     flex-direction: column;
     align-items: center;
 }
 
-.hello{
+.hello {
     font-size: 5vh;
     height: 15vh;
     width: 100vw;
@@ -28,7 +28,7 @@
     align-items: center;
 }
 
-.share-code{
+.share-code {
     height: 6vh;
     width: 55vw;
     font-size: 5vh;
@@ -37,9 +37,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: white;
 }
 
-.share-container{
+.share-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -48,34 +49,42 @@
     width: 55vw;
 }
 
-.middle-host{
+.middle-host {
     height: auto;
     width: 100vw;
-    background-color: $secondary;
+    background-color: $accent;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.list{
+.list {
     height: 35vh;
+    overflow: scroll;
     width: 90vw;
     border: black solid .7vh;
     border-radius: 10px;
+    p {
+        font-size: 1.5rem;
+    }
 }
 
-.bottom-host{
+.bottom-host {
     height: 15vh;
     width: 100vw;
-    background-color: $secondary;
+    background-color: $accent;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-        button{
-            margin-left: 5vw;
-            margin-right: 5vw;
-            border-radius: 1vw;
-        }
+    button {
+        width: 100px;
+        text-shadow: none;
+        font-size: 1rem;
+        height: 20px;
+        margin: 10px;
+        color: black;
+        background: $secondary
+    }
 }
 
 // .whosreadytoplay{
