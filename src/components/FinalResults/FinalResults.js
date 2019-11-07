@@ -34,14 +34,15 @@ class FinalResults extends Component {
       <div className="final-results-container">
         <h2 className='round-title' >Final Results</h2>
         <h3>
-          The winner is {winnerName} with {winnerPoints} points
+          The winner is {winnerName} with {winnerPoints} points!!!
         </h3>
         <h4>The Losers</h4>
-        <div className="players-results">
+        <div className="players-results-losers">
             {theLosers}
         </div>
         <div className="thanks">
             <p>Thanks for playing!</p>
+            <p className="get-out">Now get out</p>
         </div>
         
         <button
