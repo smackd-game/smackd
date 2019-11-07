@@ -111,7 +111,7 @@ class Landing extends Component {
           <div className="polygon-middle">
             <div className="white-banner"></div>
             <div className="triangle-middle-top"></div>
-            <div className="rectangle-middle">
+            <div className="rectangle-middle2">
               <h1>SMAK'd</h1>
             </div>
             <div className="triangle-middle-bottom"></div>
@@ -130,21 +130,21 @@ class Landing extends Component {
     } else if (this.state.showHost === true) {
       return (
         <div className="landing-container">
-          <div onClick={() => this.backFN()} className="host-top">
-            <div className="back-arrow">
+          <div  className="host-top">
+            <div className="back-arrow" >
               <div
                 className="left-triangle"
-                
+                onClick={() => this.backFN()}
               ></div>
               <div
                 className="arrow-rectangle"
-               
+                onClick={() => this.backFN()}
               ></div>
             </div>
           </div>
           <div className="host-middle">
             <div className="host-banner">
-              <div className="host-background">
+              <div className="host-background2">
                 <div className="text">
                   <h2>HOST</h2>
                 </div>
@@ -153,21 +153,21 @@ class Landing extends Component {
             <div className="rounds">
               <button
                 onClick={() => this.setRound(3)}
-                className="landing-button three"
+                className="landing-button"
               >
-                Three Rounds
+                3 Rounds
               </button>
               <button
                 onClick={() => this.setRound(5)}
-                className="landing-button five"
+                className="landing-button"
               >
-                Five Rounds
+                5 Rounds
               </button>
               <button
                 onClick={() => this.setRound(7)}
-                className="landing-button seven"
+                className="landing-button"
               >
-                Seven Rounds
+                7 Rounds
               </button>
             </div>
 
@@ -179,13 +179,13 @@ class Landing extends Component {
               type="text"
             />
           </div>
-          <div onClick={() => this.hostGame()} className="host-bottom">
+          <div  className="host-bottom">
             <div className="forward-arrow">
               <div
                 className="arrow-rectangle"
-                
+                onClick={() => this.hostGame()}
               ></div>
-              <div className="right-triangle"></div>
+              <div className="right-triangle" onClick={() => this.hostGame()} ></div>
             </div>
           </div>
 

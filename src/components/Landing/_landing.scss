@@ -1,6 +1,6 @@
 @import '../../variables';
 .landing-container {
-    background: $tateBuzzLightYearCream;
+    background: #DCE0E1;
 }
 
 .landing-container{
@@ -89,28 +89,37 @@
     width: 0px;
 	height: 0px;
 	// border-top: 8vh solid transparent;
-	border-left: 95vw solid $tateBuzzLightYearLightPurple;
-    border-top: 8vh solid transparent;
-    margin-left: 5vw;
+	border-left: 100vw solid #7955A0;
+    border-top: 8vh solid #DCE0E1;
+    // margin-left: 5vw;
 }
 
 .rectangle-middle{
     @extend .rectangle-top;
-    width: 95vw;
+    width: 100vw;
     // height: 10.2vh;
-    margin-left: 5vw;
-    background-color: $tateBuzzLightYearLightPurple;
+    // margin-left: 5vw;
+    background-color: #7955A0;
 
 }
 
+.rectangle-middle2{
+    @extend .rectangle-middle;
+    h1{
+    color: #F800C4;
+    text-decoration: none;
+    font-size: 20vw;
+    }  
+}
+
 .triangle-middle-bottom{
-    margin-top: -1px;
+    margin-top: -.5px;
     width: 0px;
 	height: 0px;
 	// border-top: 8vh solid transparent;
-	border-left: 95vw solid $tateBuzzLightYearLightPurple;
-    border-bottom: 8vh solid transparent;
-    margin-left: 5vw;    
+	border-left: 100vw solid #7955A0;
+    border-bottom: 8.5vh solid #DCE0E1;
+    // margin-left: 5vw;
 }
 
 
@@ -176,14 +185,14 @@
     width: 0;
 	height: 0;
 	border-top: 5vh solid transparent;
-	border-right: 7vw solid blue;
+	border-right: 7vw solid #561D7C;
 	border-bottom: 5vh dashed transparent;
 }
 
 .arrow-rectangle{
     height: 5vh;
     width: 5vw;
-    background-color: blue;
+    background-color: #561D7C;
     
 }
 
@@ -208,14 +217,19 @@
 }
 
 .host-background{
-    height: 15vh;
+    height: 10vh;
     width: 100vw;
-    background-color: green;
+    background-color: $secondary;
     display: flex;
     justify-content: center;
-    margin-top: 15vh;
+    margin-top: 10vh;
     display: flex;
     align-items: center;
+}
+
+.host-background2{
+    @extend .host-background;
+    background-color: aqua;
 }
 
 .text{
@@ -226,7 +240,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 6vh;
+    margin-bottom: -1vh;
    
 }
 
@@ -267,6 +281,10 @@
     width: 0;
 	height: 0;
 	border-top: 5vh solid transparent;
-	border-left: 7vw solid blue;
+	border-left: 7vw solid #561D7C;
 	border-bottom: 5vh solid transparent;
+}
+
+.landing-button{
+    background-color: $secondary;
 }
