@@ -170,21 +170,24 @@ export default class GameParent extends Component {
         playersCopy[index].readyForNextRound = true;
         this.socket.emit("resending ready for next round data", {
           players: playersCopy,
-          room: this.state.code
+          room: this.state.code,
+          round: this.state.round
         });
       }
     });
     this.socket.on("get updated ready data", data => {
+      
       this.setState({
-        players: data.players
+        players: data.players,
+        
       });
       let playersWhoAreReady = this.state.players.filter(
         el => el.readyForNextRound
       );
-      let nextRound = this.state.round++;
+      // let nextRound = this.state.round++;
       if (this.state.players.length === playersWhoAreReady.length) {
         this.setState({
-          round: nextRound,
+          // round: nextRound,
           showRoundResults: false,
           showQuestion: true,
           gameQuestion: "",
@@ -193,10 +196,14 @@ export default class GameParent extends Component {
           isReady: false,
           roundPoints: 0
         });
+        let nextRound = data.round +=1;
+        // console.log(nextRound)
+        // console.log(data.round)
         if (this.state.host) {
           this.socket.emit("emit one of clearing player object", {
             players: this.state.players,
-            room: this.state.code
+            room: this.state.code,
+            round: nextRound
           });
         }
       }
@@ -212,17 +219,20 @@ export default class GameParent extends Component {
           playersArr[i].didVote = false;
         }
         this.setState({
-          players: playersArr
+          players: playersArr,
+      
         });
         this.socket.emit("emit three of clearing player object", {
           players: playersArr,
-          room: this.state.code
+          room: this.state.code,
+          round: data.round
         });
       }
     });
     this.socket.on("emit four of clearing player object", data => {
       this.setState({
-        players: data.players
+        players: data.players,
+        round: data.round
       });
     });
     this.socket.on("getting voted data", data => {
