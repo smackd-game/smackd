@@ -284,11 +284,7 @@
     min-height: 30px;
     box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.699);
     // text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.603);
-    &:hover {
-        cursor: pointer;
-        opacity: 95%;
-        box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.493);
-    }
+    cursor: pointer;
 }
 
 .selected {
