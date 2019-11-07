@@ -27,7 +27,7 @@ class Host extends Component {
         </div>
         <div className = "bottom-host">
           <div className = "buttons">
-          <button className = "button" onClick={() => this.props.handleStartFn()} className='landing-button'>
+          <button className = "landing-button" onClick={() => this.props.handleStartFn()}>
           Start
           </button>
           <button onClick={() => this.props.leaveGameFn()} className='landing-button'>Leave Game</button>

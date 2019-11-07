@@ -33,11 +33,11 @@ export default class GameParent extends Component {
     //Socket listeners
     this.socket = io.connect(
       null,
-      io.connect("http://localhost", {
+      {
         reconnection: true,
         reconnectionDelay: 500,
         reconnectionAttempts: 10
-      })
+      }
     );
     this.socket.on("start", data => {
       if (data === "get ready to start") {
