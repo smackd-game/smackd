@@ -18,7 +18,7 @@ class Host extends Component {
           <h3>List of Losers!</h3>
           <div className = "list">
           <h3>Here's who's ready to play:</h3>
-          <p>{players}</p>
+          {players}
           </div>
         </div>
         <div className = "bottom-host">

@@ -12,7 +12,7 @@
         text-shadow: 2px 2px 2px black;
         transition: 3ms;
         font-size: 2.2rem;
-        animation: fadein 1s;
+        animation: fadein .5s;
         min-height: 53px;
         @keyframes fadein {
             from {
