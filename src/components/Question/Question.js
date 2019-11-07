@@ -25,7 +25,7 @@ class Question extends Component {
                     type="text"
                     className="answer"
                     />
-                    <button className='landing-button' onClick={() => this.props.submitFN()}>
+                    <button className='button submit-answer' onClick={() => this.props.submitFN()}>
                     submit
                     </button>
                 </>

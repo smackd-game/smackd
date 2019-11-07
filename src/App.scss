@@ -9,7 +9,7 @@
 .App {
     text-align: center;
     background: $brand;
-    
+    box-sizing: border-box;
 }
 * {
     font-family: $headerFont;

@@ -26,16 +26,14 @@ class Vote extends Component {
         {!this.props.hasVoted ? (
           <>
             <header className="vote">
-              <h3>{this.props.question}</h3>
+              <div className='question'>{this.props.question}</div>
             </header>
 
             <div className="answer">{answers}</div>
           </>
         ) : (
           <>
-            <header className="vote">
-              <h3>{this.props.question}</h3>
-            </header>
+              <div className='question'>{this.props.question}</div>
 
             <p>Still waiting on:</p>
             {haventVoted}
