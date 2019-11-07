@@ -7,7 +7,7 @@ const socket = require("socket.io");
 const {SERVER_PORT, CONNECTION_STRING, SESSION_SECRET} = process.env;
 const ctrl = require("./controller");
 
-// app.use( express.static( `${__dirname}/../build` ) );
+app.use( express.static( `${__dirname}/../build` ) );
 
 app.use(express.json());
 
