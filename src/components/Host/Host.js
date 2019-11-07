@@ -22,7 +22,7 @@ class Host extends Component {
         <div className = "middle-host">
           <div className = "list">
           <h3>Players!</h3>
-          <p>{players}</p>
+          {players}
           </div>
         </div>
         <div className = "bottom-host">

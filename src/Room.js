@@ -15,7 +15,14 @@ class Room extends Component {
       players: [],
       numberOfRounds: null
     };
-    this.socket = io.connect();
+    this.socket = io.connect(
+      null,
+      io.connect("http://localhost", {
+        reconnection: true,
+        reconnectionDelay: 500,
+        reconnectionAttempts: 10
+      })
+    );
     this.socket.on("start", data => {
       if (data === "get ready to start") {
         this.setState({
