@@ -16,7 +16,7 @@ class Room extends Component {
       numberOfRounds: null
     };
     this.socket = io.connect(
-      null,
+      undefined,
        {
         reconnection: true,
         reconnectionDelay: 500,

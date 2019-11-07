@@ -32,7 +32,7 @@ export default class GameParent extends Component {
     };
     //Socket listeners
     this.socket = io.connect(
-      null,
+      undefined,
       {
         reconnection: true,
         reconnectionDelay: 500,
