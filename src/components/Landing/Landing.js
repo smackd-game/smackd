@@ -112,7 +112,7 @@ class Landing extends Component {
             <div className="white-banner"></div>
             <div className="triangle-middle-top"></div>
             <div className="rectangle-middle2">
-              <h1>SMAK'd</h1>
+              <h1>SMAK'D</h1>
             </div>
             <div className="triangle-middle-bottom"></div>
           </div>
@@ -153,19 +153,19 @@ class Landing extends Component {
             <div className="rounds">
               <button
                 onClick={() => this.setRound(3)}
-                className="landing-button"
+                className={this.state.numberOfRounds === 3 ? "landing-button selected" : 'landing-button'} 
               >
                 3 Rounds
               </button>
               <button
                 onClick={() => this.setRound(5)}
-                className="landing-button"
+                className={this.state.numberOfRounds === 5 ? "landing-button selected" : 'landing-button'} 
               >
                 5 Rounds
               </button>
               <button
                 onClick={() => this.setRound(7)}
-                className="landing-button"
+                className={this.state.numberOfRounds === 7 ? "landing-button selected" : 'landing-button'} 
               >
                 7 Rounds
               </button>
