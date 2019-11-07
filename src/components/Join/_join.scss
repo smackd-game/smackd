@@ -1,9 +1,27 @@
 @import '../../variables';
-.join-container {
-    background: $secondary;
-}
-.waitingonhost{
-    width: 80vw;
-    margin: 1vh auto;
+@import '../../components/Host/host';
+
+.top-host2{
     
+    @extend .top-host;
+    justify-content: center;
+    height: 15vh;
+}
+
+.middle-host2{
+    @extend .middle-host;
+    align-items: none;
+    height: 60vh;
+    justify-content: center;
+}
+
+.list{
+    height: 55vh;
+}
+
+.bottom-host{
+    height: 25vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }

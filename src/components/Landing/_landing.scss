@@ -53,7 +53,10 @@
 .rectangle-top{
     height: 14.20vh;
     width: 90vw;
-    background-color: red;
+    background-color: $secondary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     // position: relative;
 }
 
@@ -62,7 +65,7 @@
     width: 0px;
 	height: 0px;
 	// border-top: 8vh solid transparent;
-	border-right: 90vw solid red;
+	border-right: 90vw solid $secondary;
     border-bottom: 8vh solid transparent;
 }
 
@@ -86,7 +89,7 @@
     width: 0px;
 	height: 0px;
 	// border-top: 8vh solid transparent;
-	border-left: 95vw solid red;
+	border-left: 95vw solid $tateBuzzLightYearLightPurple;
     border-top: 8vh solid transparent;
     margin-left: 5vw;
 }
@@ -96,6 +99,7 @@
     width: 95vw;
     // height: 10.2vh;
     margin-left: 5vw;
+    background-color: $tateBuzzLightYearLightPurple;
 
 }
 
@@ -104,7 +108,7 @@
     width: 0px;
 	height: 0px;
 	// border-top: 8vh solid transparent;
-	border-left: 95vw solid red;
+	border-left: 95vw solid $tateBuzzLightYearLightPurple;
     border-bottom: 8vh solid transparent;
     margin-left: 5vw;    
 }
@@ -120,14 +124,14 @@
     width: 0px;
 	height: 0px;
 	// border-top: 8vh solid transparent;
-	border-right: 90vw solid red;
+	border-right: 90vw solid aqua;
 	border-top: 8vh solid transparent;
 }
 
 .rectangle-bottom{
     height: 14.20vh;
     width: 90vw;
-    background-color: red;
+    background-color: aqua;
 }
 
 

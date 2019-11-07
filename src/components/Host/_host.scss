@@ -13,45 +13,74 @@
 .top-host{
     height: 35vh;
     width: 100vw;
-    background-color: blue;
+    background-color: $secondary;
     display: flex;
-    justify-content: around;
+    justify-content: evenly;
     flex-direction: column;
     align-items: center;
 }
 
 .hello{
     font-size: 5vh;
+    height: 15vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
 }
 
 .share-code{
-    height: 7vh;
-    width: 30vw;
-    border: black solid .5vh;
+    height: 6vh;
+    width: 55vw;
     font-size: 5vh;
+    border: black solid .7vh;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.share-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    width: 55vw;
+}
+
 .middle-host{
-    height: 50vh;
+    height: auto;
     width: 100vw;
-    background-color: red;
+    background-color: $secondary;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.list{
+    height: 35vh;
+    width: 90vw;
+    border: black solid .7vh;
+    border-radius: 10px;
 }
 
 .bottom-host{
     height: 15vh;
     width: 100vw;
-    background-color: blue;
+    background-color: $secondary;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+        button{
+            margin-left: 5vw;
+            margin-right: 5vw;
+            border-radius: 1vw;
+        }
 }
 
-.whosreadytoplay{
-    border: 2px black solid;
-    border-radius: 10px;
-    width: 80vw;
-    margin: 1vh auto;
-}
+// .whosreadytoplay{
+//     border: 2px black solid;
+//     border-radius: 10px;
+//     width: 80vw;
+//     margin: 1vh auto;
+// }
