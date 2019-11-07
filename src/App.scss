@@ -1,16 +1,17 @@
 @import '../src/components/FinalResults/finalResults';
 @import '../src/components/Host/host';
-@import '../src/components/join/join';
-@import '../src/components/landing/landing';
-@import '../src/components/question/question';
-@import '../src/components/roundresults/roundResults';
-@import '../src/components/vote/vote';
+@import '../src/components/Join/join';
+@import '../src/components/Landing/landing';
+@import '../src/components/Question/question';
+@import '../src/components/Roundresults/roundResults';
+@import '../src/components/Vote/vote';
 @import './variables';
 .App {
     text-align: center;
     background: $brand;
     box-sizing: border-box;
 }
+
 * {
     font-family: $headerFont;
     letter-spacing: .5px;
