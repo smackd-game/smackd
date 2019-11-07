@@ -4,12 +4,42 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    h2{
+    height: 100%;
+    padding: 20px;
+    h2 {
         margin: 0 auto;
+        color: rgba(255, 0, 0, 0.753);
+        text-shadow: 2px 2px 2px black;
+        transition: 3ms;
+        font-size: 2.2rem;
+        animation: fadein 1s;
+        min-height: 53px;
+        @keyframes fadein {
+            from {
+                font-size: 1rem;
+            }
+            to {
+                font-size: 2.2rem;
+            }
+        }
     }
     padding-bottom: 20vh;
     padding-top: 10vh;
+    h3 {
+        border: white 5px solid;
+        font-size: 1.5rem;
+        background: $accent;
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.699);
+        text-shadow: 2px 2px 2px black;
+    }
+}
+
+.players-results-losers {
+    box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.644);
+    border-radius: 10px;
 }
 
 .button {
@@ -26,4 +56,8 @@
         opacity: 95%;
         box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.493);
     }
+}
+
+.end {
+    background: rgba(255, 0, 0, 0.753);
 }
