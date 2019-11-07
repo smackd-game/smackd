@@ -58,9 +58,21 @@ const io = socket(server);
 io.on("connection", socket => {
   console.log("a user has connected");
 
-  socket.on("disconnect", (reason) => {
-    console.log(`${socket.id} has disconnected because ${reason}`);
-  });
+  // socket.on("disconnect", (reason) => {
+  //   console.log(`${socket.id} has disconnected because ${reason}`);
+  //   io.on("join room", data => {
+  //     console.log(`${data.name} has joined room ${data.room}`);
+  //     socket.join(data.room);
+  //     io.in(data.room).emit("game data", {
+  //       name: data.name,
+  //       room: data.room,
+  //       answer: data.answer,
+  //       roundPoints: data.roundPoints,
+  //       totalPoints: data.totalPoints
+  //     });
+  //   });
+  // });
+  
 
   socket.on("join room", data => {
     console.log(`${data.name} has joined room ${data.room}`);
