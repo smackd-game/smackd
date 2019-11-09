@@ -175,7 +175,7 @@ class Landing extends Component {
               name="name"
               value={this.state.name}
               onChange={e => this.handleChange(e, "name")}
-              placeholder="Enter Username"
+              placeholder="Choose a Nickname!"
               type="text"
             />
           </div>
@@ -212,7 +212,7 @@ class Landing extends Component {
           name="name"
           value={this.state.name}
           onChange={e => this.handleChange(e, "name")}
-          placeholder="Enter Username"
+          placeholder="Choose a Nickname!"
           type="text"
         />
           <input
