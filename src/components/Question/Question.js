@@ -21,6 +21,7 @@ class Question extends Component {
                 <>
                     <header className="question"><h3>{this.props.question}</h3></header>
                     <textarea
+                    placeholder='Enter your answer'
                     onChange={e => this.props.handleChangeFn(e.target.value)}
                     type="text"
                     className="answer"
