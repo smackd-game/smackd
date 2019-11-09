@@ -48,7 +48,7 @@ class Join extends Component {
             <p>Waiting for Host</p>
           </div>
           <div>
-            <button className='landing-button' onClick={() => this.props.leaveGameFn()} >Leave Game</button>
+            <button className='landing-button' onClick={() => this.props.leaveGameFn()} >Leave</button>
           </div>
         </div>
       </div>
