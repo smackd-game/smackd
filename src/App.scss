@@ -12,6 +12,10 @@
     box-sizing: border-box;
 }
 
+html {
+    background: $accent;
+}
+
 * {
     font-family: $headerFont;
     letter-spacing: .5px;
