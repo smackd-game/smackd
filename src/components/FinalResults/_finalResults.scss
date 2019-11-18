@@ -27,6 +27,8 @@
     padding-top: 10vh;
     h3 {
         border: white 5px solid;
+        max-width: 500px;
+        margin: 10px auto;
         font-size: 1.5rem;
         background: $accent;
         padding: 10px;
@@ -40,6 +42,9 @@
 .players-results-losers {
     box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.644);
     border-radius: 10px;
+    min-width: 280px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .button {
