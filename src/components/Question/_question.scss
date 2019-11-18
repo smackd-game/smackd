@@ -10,6 +10,7 @@
     box-sizing: border-box;
     .question {
         border: white 5px solid;
+        max-width: 500px;
         background: $accent;
         padding: 10px;
         border-radius: 10px;
@@ -36,7 +37,7 @@
             outline: none
         }
         min-height: 30px;
-        width: 80vw;
+        max-width: 500px;
         font-size: 1rem;
         margin: 8vh auto;
         height: 25vh;

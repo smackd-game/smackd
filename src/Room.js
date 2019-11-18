@@ -3,6 +3,7 @@ import Join from "./components/Join/Join";
 import React, {Component} from "react";
 import io from "socket.io-client";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 class Room extends Component {
   constructor(props) {
@@ -131,6 +132,9 @@ class Room extends Component {
   };
 
   handleStart = async () => {
+    if (this.state.players.length < 3) {
+     return Swal.fire("3 players are required to begin. Trust me... fewer would be lame.")
+    }
     this.setState({
       start: true
     });
