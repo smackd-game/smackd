@@ -10,6 +10,7 @@
     .question {
         border: white 5px solid;
         background: $tateAlternateGreen2;
+        max-width: 500px;
         padding: 10px;
         border-radius: 10px;
         color: white;
@@ -21,6 +22,7 @@
     border: 2px solid black;
     border-radius: 10px;
     background: $brianMainBackground;
+    max-width: 500px;
     width: 80vw;
     margin: 8vh auto;
     display: flex;
